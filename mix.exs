@@ -50,8 +50,7 @@ defmodule Edomu.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:arpos, "~> 0.1.6"}
-
+      {:arpos, "~> 0.1.8"}
     ]
   end
 

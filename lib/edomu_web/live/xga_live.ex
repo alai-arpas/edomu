@@ -5,17 +5,34 @@ defmodule EdomuWeb.XgaLive do
 
   @impl true
   def mount(_params, _session, socket) do
+    csvs = Xga.struttura_files()
+
     socket =
       assign(socket,
         modulo: "Modulo XgaLive",
-        csv: Xga.csv_files(),
-        directory: Xga.csv_dir()
+        csvs: csvs,
+        directory: Xga.csv_dir(),
+        corrente: csvs |> hd,
+        messaggi: []
       )
 
-    {:ok, socket}
+    {:ok, socket, layout: {EdomuWeb.Layouts, :xga}}
   end
 
-  def tronca(stringa) do
-    "uno"
+  @impl true
+  def handle_event("Annomese", params, socket) do
+    IO.inspect(params, label: "Annomese")
+
+    {:noreply, assign(socket, corrente: params, messaggi: [])}
+  end
+
+  @impl true
+  def handle_event("colonne", _params, socket) do
+    corrente = socket.assigns.corrente
+    IO.inspect(corrente, label: "corrente")
+    file = corrente["file"]
+
+    colonne = Xga.colonne_da_csv(file) |> Enum.take(8)
+    {:noreply, assign(socket, messaggi: colonne)}
   end
 end
