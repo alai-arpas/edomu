@@ -7,6 +7,8 @@
 # General application configuration
 import Config
 
+config :arpos, :windows_share, System.get_env("WINDOWS_SHARE")
+
 config :edomu,
   ecto_repos: [Edomu.Repo]
 

@@ -18,6 +18,7 @@ defmodule EdomuWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/xga", XgaLive
   end
 
   # Other scopes may use custom stacks.
