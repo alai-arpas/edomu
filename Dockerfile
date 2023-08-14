@@ -1,3 +1,6 @@
+# STO USANDO PER ORA solo RELEASE non ancora DOCKER
+
+
 # This file is based on these images:
 #
 #   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
