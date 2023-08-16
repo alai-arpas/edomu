@@ -21,12 +21,12 @@
       <%= @corrente["file"] %>
     </.button>
   </div>
-</div>
 
-<div class="flex bg-blue-600">
-  <div :for={msg <- @messaggi} class="p-2 m-2 bg-sky-200 w-80">
-    <p>
-      <%= msg %>
-    </p>
+  <div class="flex flex-col bg-blue-600">
+    <div :for={msg <- @messaggi} class="p-1 m-1 bg-sky-200 w-80">
+      <p>
+        <%= msg %>
+      </p>
+    </div>
   </div>
 </div>
