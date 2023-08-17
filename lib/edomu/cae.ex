@@ -105,4 +105,100 @@ defmodule Edomu.Cae do
   def danger_delete_all_CsvRow do
     Repo.delete_all(CsvRow)
   end
+
+  alias Edomu.Cae.CaeSsGrand
+
+  @doc """
+  Returns the list of cae_ss_grand.
+
+  ## Examples
+
+      iex> list_cae_ss_grand()
+      [%CaeSsGrand{}, ...]
+
+  """
+  def list_cae_ss_grand do
+    Repo.all(CaeSsGrand)
+  end
+
+  @doc """
+  Gets a single cae_ss_grand.
+
+  Raises `Ecto.NoResultsError` if the Cae ss grand does not exist.
+
+  ## Examples
+
+      iex> get_cae_ss_grand!(123)
+      %CaeSsGrand{}
+
+      iex> get_cae_ss_grand!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_cae_ss_grand!(id), do: Repo.get!(CaeSsGrand, id)
+
+  @doc """
+  Creates a cae_ss_grand.
+
+  ## Examples
+
+      iex> create_cae_ss_grand(%{field: value})
+      {:ok, %CaeSsGrand{}}
+
+      iex> create_cae_ss_grand(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_cae_ss_grand(attrs \\ %{}) do
+    %CaeSsGrand{}
+    |> CaeSsGrand.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a cae_ss_grand.
+
+  ## Examples
+
+      iex> update_cae_ss_grand(cae_ss_grand, %{field: new_value})
+      {:ok, %CaeSsGrand{}}
+
+      iex> update_cae_ss_grand(cae_ss_grand, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_cae_ss_grand(%CaeSsGrand{} = cae_ss_grand, attrs) do
+    cae_ss_grand
+    |> CaeSsGrand.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a cae_ss_grand.
+
+  ## Examples
+
+      iex> delete_cae_ss_grand(cae_ss_grand)
+      {:ok, %CaeSsGrand{}}
+
+      iex> delete_cae_ss_grand(cae_ss_grand)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_cae_ss_grand(%CaeSsGrand{} = cae_ss_grand) do
+    Repo.delete(cae_ss_grand)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking cae_ss_grand changes.
+
+  ## Examples
+
+      iex> change_cae_ss_grand(cae_ss_grand)
+      %Ecto.Changeset{data: %CaeSsGrand{}}
+
+  """
+  def change_cae_ss_grand(%CaeSsGrand{} = cae_ss_grand, attrs \\ %{}) do
+    CaeSsGrand.changeset(cae_ss_grand, attrs)
+  end
 end

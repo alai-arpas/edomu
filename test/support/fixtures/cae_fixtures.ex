@@ -19,4 +19,22 @@ defmodule Edomu.CaeFixtures do
 
     csv_row
   end
+
+  @doc """
+  Generate a cae_ss_grand.
+  """
+  def cae_ss_grand_fixture(attrs \\ %{}) do
+    {:ok, cae_ss_grand} =
+      attrs
+      |> Enum.into(%{
+        grand: "some grand",
+        nome: "some nome",
+        sensore: 42,
+        stazione: 42,
+        usa: true
+      })
+      |> Edomu.Cae.create_cae_ss_grand()
+
+    cae_ss_grand
+  end
 end

@@ -1,0 +1,30 @@
+<.header>
+  Cae ss grand <%= @cae_ss_grand.id %>
+  <:subtitle>This is a cae_ss_grand record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/cae_ss_grand/#{@cae_ss_grand}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit cae_ss_grand</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Sensore"><%= @cae_ss_grand.sensore %></:item>
+  <:item title="Stazione"><%= @cae_ss_grand.stazione %></:item>
+  <:item title="Nome"><%= @cae_ss_grand.nome %></:item>
+  <:item title="Grand"><%= @cae_ss_grand.grand %></:item>
+  <:item title="Usa"><%= @cae_ss_grand.usa %></:item>
+</.list>
+
+<.back navigate={~p"/cae_ss_grand"}>Back to cae_ss_grand</.back>
+
+<.modal :if={@live_action == :edit} id="cae_ss_grand-modal" show on_cancel={JS.patch(~p"/cae_ss_grand/#{@cae_ss_grand}")}>
+  <.live_component
+    module={EdomuWeb.CaeSsGrandLive.FormComponent}
+    id={@cae_ss_grand.id}
+    title={@page_title}
+    action={@live_action}
+    cae_ss_grand={@cae_ss_grand}
+    patch={~p"/cae_ss_grand/#{@cae_ss_grand}"}
+  />
+</.modal>

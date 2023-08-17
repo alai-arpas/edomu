@@ -60,4 +60,66 @@ defmodule Edomu.CaeTest do
       assert %Ecto.Changeset{} = Cae.change_csv_row(csv_row)
     end
   end
+
+  describe "cae_ss_grand" do
+    alias Edomu.Cae.CaeSsGrand
+
+    import Edomu.CaeFixtures
+
+    @invalid_attrs %{grand: nil, nome: nil, sensore: nil, stazione: nil, usa: nil}
+
+    test "list_cae_ss_grand/0 returns all cae_ss_grand" do
+      cae_ss_grand = cae_ss_grand_fixture()
+      assert Cae.list_cae_ss_grand() == [cae_ss_grand]
+    end
+
+    test "get_cae_ss_grand!/1 returns the cae_ss_grand with given id" do
+      cae_ss_grand = cae_ss_grand_fixture()
+      assert Cae.get_cae_ss_grand!(cae_ss_grand.id) == cae_ss_grand
+    end
+
+    test "create_cae_ss_grand/1 with valid data creates a cae_ss_grand" do
+      valid_attrs = %{grand: "some grand", nome: "some nome", sensore: 42, stazione: 42, usa: true}
+
+      assert {:ok, %CaeSsGrand{} = cae_ss_grand} = Cae.create_cae_ss_grand(valid_attrs)
+      assert cae_ss_grand.grand == "some grand"
+      assert cae_ss_grand.nome == "some nome"
+      assert cae_ss_grand.sensore == 42
+      assert cae_ss_grand.stazione == 42
+      assert cae_ss_grand.usa == true
+    end
+
+    test "create_cae_ss_grand/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Cae.create_cae_ss_grand(@invalid_attrs)
+    end
+
+    test "update_cae_ss_grand/2 with valid data updates the cae_ss_grand" do
+      cae_ss_grand = cae_ss_grand_fixture()
+      update_attrs = %{grand: "some updated grand", nome: "some updated nome", sensore: 43, stazione: 43, usa: false}
+
+      assert {:ok, %CaeSsGrand{} = cae_ss_grand} = Cae.update_cae_ss_grand(cae_ss_grand, update_attrs)
+      assert cae_ss_grand.grand == "some updated grand"
+      assert cae_ss_grand.nome == "some updated nome"
+      assert cae_ss_grand.sensore == 43
+      assert cae_ss_grand.stazione == 43
+      assert cae_ss_grand.usa == false
+    end
+
+    test "update_cae_ss_grand/2 with invalid data returns error changeset" do
+      cae_ss_grand = cae_ss_grand_fixture()
+      assert {:error, %Ecto.Changeset{}} = Cae.update_cae_ss_grand(cae_ss_grand, @invalid_attrs)
+      assert cae_ss_grand == Cae.get_cae_ss_grand!(cae_ss_grand.id)
+    end
+
+    test "delete_cae_ss_grand/1 deletes the cae_ss_grand" do
+      cae_ss_grand = cae_ss_grand_fixture()
+      assert {:ok, %CaeSsGrand{}} = Cae.delete_cae_ss_grand(cae_ss_grand)
+      assert_raise Ecto.NoResultsError, fn -> Cae.get_cae_ss_grand!(cae_ss_grand.id) end
+    end
+
+    test "change_cae_ss_grand/1 returns a cae_ss_grand changeset" do
+      cae_ss_grand = cae_ss_grand_fixture()
+      assert %Ecto.Changeset{} = Cae.change_cae_ss_grand(cae_ss_grand)
+    end
+  end
 end

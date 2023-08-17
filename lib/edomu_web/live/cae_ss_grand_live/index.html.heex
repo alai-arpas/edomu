@@ -1,0 +1,45 @@
+<.header>
+  Listing Cae ss grand
+  <:actions>
+    <.link patch={~p"/cae_ss_grand/new"}>
+      <.button>New Cae ss grand</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="cae_ss_grand"
+  rows={@streams.cae_ss_grand_collection}
+  row_click={fn {_id, cae_ss_grand} -> JS.navigate(~p"/cae_ss_grand/#{cae_ss_grand}") end}
+>
+  <:col :let={{_id, cae_ss_grand}} label="Sensore"><%= cae_ss_grand.sensore %></:col>
+  <:col :let={{_id, cae_ss_grand}} label="Stazione"><%= cae_ss_grand.stazione %></:col>
+  <:col :let={{_id, cae_ss_grand}} label="Nome"><%= cae_ss_grand.nome %></:col>
+  <:col :let={{_id, cae_ss_grand}} label="Grand"><%= cae_ss_grand.grand %></:col>
+  <:col :let={{_id, cae_ss_grand}} label="Usa"><%= cae_ss_grand.usa %></:col>
+  <:action :let={{_id, cae_ss_grand}}>
+    <div class="sr-only">
+      <.link navigate={~p"/cae_ss_grand/#{cae_ss_grand}"}>Show</.link>
+    </div>
+    <.link patch={~p"/cae_ss_grand/#{cae_ss_grand}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, cae_ss_grand}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: cae_ss_grand.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="cae_ss_grand-modal" show on_cancel={JS.patch(~p"/cae_ss_grand")}>
+  <.live_component
+    module={EdomuWeb.CaeSsGrandLive.FormComponent}
+    id={@cae_ss_grand.id || :new}
+    title={@page_title}
+    action={@live_action}
+    cae_ss_grand={@cae_ss_grand}
+    patch={~p"/cae_ss_grand"}
+  />
+</.modal>
