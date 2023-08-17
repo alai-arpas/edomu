@@ -23,12 +23,21 @@ defmodule EdomuWeb.Router do
     get "/", PageController, :home
     live "/xga", XgaLive
 
+    # SENSORE CAE STAZIONE E GRAND_SASSARI
     live "/cae_ss_grand", CaeSsGrandLive.Index, :index
     live "/cae_ss_grand/new", CaeSsGrandLive.Index, :new
     live "/cae_ss_grand/:id/edit", CaeSsGrandLive.Index, :edit
 
     live "/cae_ss_grand/:id", CaeSsGrandLive.Show, :show
     live "/cae_ss_grand/:id/show/edit", CaeSsGrandLive.Show, :edit
+
+    # TRASCODIFICA STAZIONI CAE -> SASSARI
+    live "/stazioni_trascodifica", StazioneCodiciLive.Index, :index
+    live "/stazioni_trascodifica/new", StazioneCodiciLive.Index, :new
+    live "/stazioni_trascodifica/:id/edit", StazioneCodiciLive.Index, :edit
+
+    live "/stazioni_trascodifica/:id", StazioneCodiciLive.Show, :show
+    live "/stazioni_trascodifica/:id/show/edit", StazioneCodiciLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

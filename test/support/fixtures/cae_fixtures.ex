@@ -37,4 +37,20 @@ defmodule Edomu.CaeFixtures do
 
     cae_ss_grand
   end
+
+  @doc """
+  Generate a stazione_codici.
+  """
+  def stazione_codici_fixture(attrs \\ %{}) do
+    {:ok, stazione_codici} =
+      attrs
+      |> Enum.into(%{
+        arpas: "some arpas",
+        nome: "some nome",
+        stazione: 42
+      })
+      |> Edomu.Cae.create_stazione_codici()
+
+    stazione_codici
+  end
 end

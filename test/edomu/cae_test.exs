@@ -122,4 +122,62 @@ defmodule Edomu.CaeTest do
       assert %Ecto.Changeset{} = Cae.change_cae_ss_grand(cae_ss_grand)
     end
   end
+
+  describe "stazioni_trascodifica" do
+    alias Edomu.Cae.StazioneCodici
+
+    import Edomu.CaeFixtures
+
+    @invalid_attrs %{arpas: nil, nome: nil, stazione: nil}
+
+    test "list_stazioni_trascodifica/0 returns all stazioni_trascodifica" do
+      stazione_codici = stazione_codici_fixture()
+      assert Cae.list_stazioni_trascodifica() == [stazione_codici]
+    end
+
+    test "get_stazione_codici!/1 returns the stazione_codici with given id" do
+      stazione_codici = stazione_codici_fixture()
+      assert Cae.get_stazione_codici!(stazione_codici.id) == stazione_codici
+    end
+
+    test "create_stazione_codici/1 with valid data creates a stazione_codici" do
+      valid_attrs = %{arpas: "some arpas", nome: "some nome", stazione: 42}
+
+      assert {:ok, %StazioneCodici{} = stazione_codici} = Cae.create_stazione_codici(valid_attrs)
+      assert stazione_codici.arpas == "some arpas"
+      assert stazione_codici.nome == "some nome"
+      assert stazione_codici.stazione == 42
+    end
+
+    test "create_stazione_codici/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Cae.create_stazione_codici(@invalid_attrs)
+    end
+
+    test "update_stazione_codici/2 with valid data updates the stazione_codici" do
+      stazione_codici = stazione_codici_fixture()
+      update_attrs = %{arpas: "some updated arpas", nome: "some updated nome", stazione: 43}
+
+      assert {:ok, %StazioneCodici{} = stazione_codici} = Cae.update_stazione_codici(stazione_codici, update_attrs)
+      assert stazione_codici.arpas == "some updated arpas"
+      assert stazione_codici.nome == "some updated nome"
+      assert stazione_codici.stazione == 43
+    end
+
+    test "update_stazione_codici/2 with invalid data returns error changeset" do
+      stazione_codici = stazione_codici_fixture()
+      assert {:error, %Ecto.Changeset{}} = Cae.update_stazione_codici(stazione_codici, @invalid_attrs)
+      assert stazione_codici == Cae.get_stazione_codici!(stazione_codici.id)
+    end
+
+    test "delete_stazione_codici/1 deletes the stazione_codici" do
+      stazione_codici = stazione_codici_fixture()
+      assert {:ok, %StazioneCodici{}} = Cae.delete_stazione_codici(stazione_codici)
+      assert_raise Ecto.NoResultsError, fn -> Cae.get_stazione_codici!(stazione_codici.id) end
+    end
+
+    test "change_stazione_codici/1 returns a stazione_codici changeset" do
+      stazione_codici = stazione_codici_fixture()
+      assert %Ecto.Changeset{} = Cae.change_stazione_codici(stazione_codici)
+    end
+  end
 end

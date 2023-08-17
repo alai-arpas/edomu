@@ -201,4 +201,100 @@ defmodule Edomu.Cae do
   def change_cae_ss_grand(%CaeSsGrand{} = cae_ss_grand, attrs \\ %{}) do
     CaeSsGrand.changeset(cae_ss_grand, attrs)
   end
+
+  alias Edomu.Cae.StazioneCodici
+
+  @doc """
+  Returns the list of stazioni_trascodifica.
+
+  ## Examples
+
+      iex> list_stazioni_trascodifica()
+      [%StazioneCodici{}, ...]
+
+  """
+  def list_stazioni_trascodifica do
+    Repo.all(StazioneCodici)
+  end
+
+  @doc """
+  Gets a single stazione_codici.
+
+  Raises `Ecto.NoResultsError` if the Stazione codici does not exist.
+
+  ## Examples
+
+      iex> get_stazione_codici!(123)
+      %StazioneCodici{}
+
+      iex> get_stazione_codici!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stazione_codici!(id), do: Repo.get!(StazioneCodici, id)
+
+  @doc """
+  Creates a stazione_codici.
+
+  ## Examples
+
+      iex> create_stazione_codici(%{field: value})
+      {:ok, %StazioneCodici{}}
+
+      iex> create_stazione_codici(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stazione_codici(attrs \\ %{}) do
+    %StazioneCodici{}
+    |> StazioneCodici.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a stazione_codici.
+
+  ## Examples
+
+      iex> update_stazione_codici(stazione_codici, %{field: new_value})
+      {:ok, %StazioneCodici{}}
+
+      iex> update_stazione_codici(stazione_codici, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_stazione_codici(%StazioneCodici{} = stazione_codici, attrs) do
+    stazione_codici
+    |> StazioneCodici.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a stazione_codici.
+
+  ## Examples
+
+      iex> delete_stazione_codici(stazione_codici)
+      {:ok, %StazioneCodici{}}
+
+      iex> delete_stazione_codici(stazione_codici)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stazione_codici(%StazioneCodici{} = stazione_codici) do
+    Repo.delete(stazione_codici)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking stazione_codici changes.
+
+  ## Examples
+
+      iex> change_stazione_codici(stazione_codici)
+      %Ecto.Changeset{data: %StazioneCodici{}}
+
+  """
+  def change_stazione_codici(%StazioneCodici{} = stazione_codici, attrs \\ %{}) do
+    StazioneCodici.changeset(stazione_codici, attrs)
+  end
 end

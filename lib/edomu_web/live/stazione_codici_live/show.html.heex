@@ -1,0 +1,28 @@
+<.header>
+  Stazione codici <%= @stazione_codici.id %>
+  <:subtitle>This is a stazione_codici record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/stazioni_trascodifica/#{@stazione_codici}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit stazione_codici</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Arpas"><%= @stazione_codici.arpas %></:item>
+  <:item title="Stazione"><%= @stazione_codici.stazione %></:item>
+  <:item title="Nome"><%= @stazione_codici.nome %></:item>
+</.list>
+
+<.back navigate={~p"/stazioni_trascodifica"}>Back to stazioni_trascodifica</.back>
+
+<.modal :if={@live_action == :edit} id="stazione_codici-modal" show on_cancel={JS.patch(~p"/stazioni_trascodifica/#{@stazione_codici}")}>
+  <.live_component
+    module={EdomuWeb.StazioneCodiciLive.FormComponent}
+    id={@stazione_codici.id}
+    title={@page_title}
+    action={@live_action}
+    stazione_codici={@stazione_codici}
+    patch={~p"/stazioni_trascodifica/#{@stazione_codici}"}
+  />
+</.modal>
