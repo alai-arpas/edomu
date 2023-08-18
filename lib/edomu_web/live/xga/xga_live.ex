@@ -1,4 +1,4 @@
-defmodule EdomuWeb.XgaLive do
+defmodule EdomuWeb.Xga.XgaLive do
   use EdomuWeb, :live_view
 
   alias Arpos.Toolbox.CaeXga, as: Xga

@@ -1,0 +1,43 @@
+<.header>
+  Listing Wlinks
+  <:actions>
+    <.link patch={~p"/wlinks/new"}>
+      <.button>New Wlink</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="wlinks"
+  rows={@streams.wlinks}
+  row_click={fn {_id, wlink} -> JS.navigate(~p"/wlinks/#{wlink}") end}
+>
+  <:col :let={{_id, wlink}} label="Url"><%= wlink.url %></:col>
+  <:col :let={{_id, wlink}} label="Descrizione"><%= wlink.descrizione %></:col>
+  <:col :let={{_id, wlink}} label="Intranet"><%= wlink.intranet %></:col>
+  <:action :let={{_id, wlink}}>
+    <div class="sr-only">
+      <.link navigate={~p"/wlinks/#{wlink}"}>Show</.link>
+    </div>
+    <.link patch={~p"/wlinks/#{wlink}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, wlink}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: wlink.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="wlink-modal" show on_cancel={JS.patch(~p"/wlinks")}>
+  <.live_component
+    module={EdomuWeb.WlinkLive.FormComponent}
+    id={@wlink.id || :new}
+    title={@page_title}
+    action={@live_action}
+    wlink={@wlink}
+    patch={~p"/wlinks"}
+  />
+</.modal>

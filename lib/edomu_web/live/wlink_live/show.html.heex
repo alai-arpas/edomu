@@ -1,0 +1,28 @@
+<.header>
+  Wlink <%= @wlink.id %>
+  <:subtitle>This is a wlink record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/wlinks/#{@wlink}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit wlink</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Url"><%= @wlink.url %></:item>
+  <:item title="Descrizione"><%= @wlink.descrizione %></:item>
+  <:item title="Intranet"><%= @wlink.intranet %></:item>
+</.list>
+
+<.back navigate={~p"/wlinks"}>Back to wlinks</.back>
+
+<.modal :if={@live_action == :edit} id="wlink-modal" show on_cancel={JS.patch(~p"/wlinks/#{@wlink}")}>
+  <.live_component
+    module={EdomuWeb.WlinkLive.FormComponent}
+    id={@wlink.id}
+    title={@page_title}
+    action={@live_action}
+    wlink={@wlink}
+    patch={~p"/wlinks/#{@wlink}"}
+  />
+</.modal>

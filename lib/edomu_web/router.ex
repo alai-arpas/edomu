@@ -21,7 +21,17 @@ defmodule EdomuWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    live "/xga", XgaLive
+
+    live "/xga", Xga.XgaLive
+    live "/servizio_idrografico", Idrografico.IdroLive
+
+    # WEB LINK GESTITI DA DB
+    live "/wlinks", WlinkLive.Index, :index
+    live "/wlinks/new", WlinkLive.Index, :new
+    live "/wlinks/:id/edit", WlinkLive.Index, :edit
+
+    live "/wlinks/:id", WlinkLive.Show, :show
+    live "/wlinks/:id/show/edit", WlinkLive.Show, :edit
 
     # SENSORE CAE STAZIONE E GRAND_SASSARI
     live "/cae_ss_grand", CaeSsGrandLive.Index, :index
