@@ -1,8 +1,8 @@
 <.header>
-  Listing Wlinks
+  Collegamenti utili
   <:actions>
     <.link patch={~p"/wlinks/new"}>
-      <.button>New Wlink</.button>
+      <.button>New Link</.button>
     </.link>
   </:actions>
 </.header>
@@ -19,7 +19,8 @@
     <div class="sr-only">
       <.link navigate={~p"/wlinks/#{wlink}"}>Show</.link>
     </div>
-    <.link patch={~p"/wlinks/#{wlink}/edit"}>Edit</.link>
+    <.link href={wlink.url} target="blank">Vai</.link>
+    | <.link patch={~p"/wlinks/#{wlink}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, wlink}}>
     <.link
@@ -31,7 +32,12 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="wlink-modal" show on_cancel={JS.patch(~p"/wlinks")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="wlink-modal"
+  show
+  on_cancel={JS.patch(~p"/wlinks")}
+>
   <.live_component
     module={EdomuWeb.WlinkLive.FormComponent}
     id={@wlink.id || :new}
