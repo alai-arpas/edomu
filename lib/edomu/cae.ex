@@ -7,6 +7,11 @@ defmodule Edomu.Cae do
   alias Edomu.Repo
 
   alias Edomu.Cae.CsvRow
+  alias Edomu.Cae.StazioniNull
+
+  def stazioni_null do
+    Repo.all(StazioniNull)
+  end
 
   @doc """
   Returns the list of csv_files.

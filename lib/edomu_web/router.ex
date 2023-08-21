@@ -18,12 +18,36 @@ defmodule EdomuWeb.Router do
   end
 
   scope "/", EdomuWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :authenticated,
+      on_mount: {EdomuWeb.UserAuth, :ensure_authenticated} do
+      live "/xga", Xga.XgaLive
+      live "/servizio_idrografico", Idrografico.IdroLive
+      live "/mogoro", CargMogoro.MogoroLive
+
+      # SENSORE CAE STAZIONE E GRAND_SASSARI
+      live "/cae_ss_grand", CaeSsGrandLive.Index, :index
+      live "/cae_ss_grand/new", CaeSsGrandLive.Index, :new
+      live "/cae_ss_grand/:id/edit", CaeSsGrandLive.Index, :edit
+
+      live "/cae_ss_grand/:id", CaeSsGrandLive.Show, :show
+      live "/cae_ss_grand/:id/show/edit", CaeSsGrandLive.Show, :edit
+
+      # TRASCODIFICA STAZIONI CAE -> SASSARI
+      live "/stazioni_trascodifica", StazioneCodiciLive.Index, :index
+      live "/stazioni_trascodifica/new", StazioneCodiciLive.Index, :new
+      live "/stazioni_trascodifica/:id/edit", StazioneCodiciLive.Index, :edit
+
+      live "/stazioni_trascodifica/:id", StazioneCodiciLive.Show, :show
+      live "/stazioni_trascodifica/:id/show/edit", StazioneCodiciLive.Show, :edit
+    end
+  end
+
+  scope "/", EdomuWeb do
     pipe_through :browser
 
     get "/", PageController, :home
-
-    live "/xga", Xga.XgaLive
-    live "/servizio_idrografico", Idrografico.IdroLive
 
     # WEB LINK GESTITI DA DB
     live "/wlinks", WlinkLive.Index, :index
@@ -32,22 +56,6 @@ defmodule EdomuWeb.Router do
 
     live "/wlinks/:id", WlinkLive.Show, :show
     live "/wlinks/:id/show/edit", WlinkLive.Show, :edit
-
-    # SENSORE CAE STAZIONE E GRAND_SASSARI
-    live "/cae_ss_grand", CaeSsGrandLive.Index, :index
-    live "/cae_ss_grand/new", CaeSsGrandLive.Index, :new
-    live "/cae_ss_grand/:id/edit", CaeSsGrandLive.Index, :edit
-
-    live "/cae_ss_grand/:id", CaeSsGrandLive.Show, :show
-    live "/cae_ss_grand/:id/show/edit", CaeSsGrandLive.Show, :edit
-
-    # TRASCODIFICA STAZIONI CAE -> SASSARI
-    live "/stazioni_trascodifica", StazioneCodiciLive.Index, :index
-    live "/stazioni_trascodifica/new", StazioneCodiciLive.Index, :new
-    live "/stazioni_trascodifica/:id/edit", StazioneCodiciLive.Index, :edit
-
-    live "/stazioni_trascodifica/:id", StazioneCodiciLive.Show, :show
-    live "/stazioni_trascodifica/:id/show/edit", StazioneCodiciLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

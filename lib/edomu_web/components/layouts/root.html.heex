@@ -13,6 +13,15 @@
   </head>
   <body class="bg-slate-100 antialiased">
     <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
+      <li>
+        <.link
+          navigate={~p"/servizio_idrografico"}
+          class="text-[0.8125rem] leading-6 text-blue-600 font-bold hover:text-blue-400"
+        >
+          Servizio idrografico
+        </.link>
+      </li>
+
       <%= if @current_user do %>
         <li class="text-[0.8125rem] leading-6 text-zinc-900">
           <%= @current_user.email %>

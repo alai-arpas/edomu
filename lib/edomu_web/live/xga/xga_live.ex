@@ -2,6 +2,7 @@ defmodule EdomuWeb.Xga.XgaLive do
   use EdomuWeb, :live_view
 
   alias Arpos.Toolbox.CaeXga, as: Xga
+  alias Edomu.Cae
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,7 +14,8 @@ defmodule EdomuWeb.Xga.XgaLive do
         csvs: csvs,
         directory: Xga.csv_dir(),
         corrente: csvs |> hd,
-        messaggi: []
+        messaggi: [],
+        stazioni_nulle: Cae.stazioni_null()
       )
 
     {:ok, socket, layout: {EdomuWeb.Layouts, :xga}}

@@ -10,10 +10,12 @@
 <.table
   id="stazioni_trascodifica"
   rows={@streams.stazioni_trascodifica}
-  row_click={fn {_id, stazione_codici} -> JS.navigate(~p"/stazioni_trascodifica/#{stazione_codici}") end}
+  row_click={
+    fn {_id, stazione_codici} -> JS.navigate(~p"/stazioni_trascodifica/#{stazione_codici}") end
+  }
 >
-  <:col :let={{_id, stazione_codici}} label="Arpas"><%= stazione_codici.arpas %></:col>
-  <:col :let={{_id, stazione_codici}} label="Stazione"><%= stazione_codici.stazione %></:col>
+  <:col :let={{_id, stazione_codici}} label="Arpas Sassari"><%= stazione_codici.arpas %></:col>
+  <:col :let={{_id, stazione_codici}} label="CAE Stazione"><%= stazione_codici.stazione %></:col>
   <:col :let={{_id, stazione_codici}} label="Nome"><%= stazione_codici.nome %></:col>
   <:action :let={{_id, stazione_codici}}>
     <div class="sr-only">
@@ -31,7 +33,12 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="stazione_codici-modal" show on_cancel={JS.patch(~p"/stazioni_trascodifica")}>
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="stazione_codici-modal"
+  show
+  on_cancel={JS.patch(~p"/stazioni_trascodifica")}
+>
   <.live_component
     module={EdomuWeb.StazioneCodiciLive.FormComponent}
     id={@stazione_codici.id || :new}
