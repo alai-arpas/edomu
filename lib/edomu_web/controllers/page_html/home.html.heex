@@ -1,14 +1,14 @@
 <.flash_group flash={@flash} />
-<div class="flex flex-col">
+<div class="flex flex-col items-center">
   <div class="p-5">
     <div class="bg-[#006110] flex flex-row">
       <img
-        class="w-24 h-24 mx-10 my-2 p-1"
+        class="w-24 h-24 mx-5 my-2 p-1"
         src="images/RAS.gif"
         alt="Logo della Regione Autonoma della Sardegna"
       />
-      <div class="bg-white w-1 m-4"></div>
-      <div class="mx-5 flex flex-col justify-center">
+
+      <div class="mx-5 flex flex-col items-center justify-center">
         <p class="text-[#ffffff] text-[1.1rem] font-semi-bold">
           ARPAS - Agenzia protezione dell'Ambiente della Regione Sardegna
         </p>
@@ -19,12 +19,9 @@
     </div>
   </div>
   Collegamenti
-  <div class="bg-yellow-100">
-    <.link
-      navigate="wlinks"
-      class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-    >
-      <.icon name="hero-arrow-left-solid" class="h-3 w-3" /> Wlink
+  <div class="w-72">
+    <.link navigate="wlinks" class="bg-yellow-100 hover:bg-blue-300">
+      Wlink db <.icon name="hero-arrow-left-solid" class="h-5 w-6" />
     </.link>
   </div>
 </div>
