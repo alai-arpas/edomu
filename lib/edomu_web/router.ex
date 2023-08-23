@@ -29,6 +29,13 @@ defmodule EdomuWeb.Router do
       live "/carg", Carg.CargLive
       live "/carg/:foglio", Carg.CargLive
 
+      live "/carg_campioni", CargCampioneLive.Index, :index
+      live "/carg_campioni/new", CargCampioneLive.Index, :new
+      live "/carg_campioni/:id/edit", CargCampioneLive.Index, :edit
+
+      live "/carg_campioni/:id", CargCampioneLive.Show, :show
+      live "/carg_campioni/:id/show/edit", CargCampioneLive.Show, :edit
+
       # SENSORE CAE STAZIONE E GRAND_SASSARI
       live "/cae_ss_grand", CaeSsGrandLive.Index, :index
       live "/cae_ss_grand/new", CaeSsGrandLive.Index, :new

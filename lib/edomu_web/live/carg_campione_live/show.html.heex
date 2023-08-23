@@ -1,0 +1,51 @@
+<.header>
+  Carg campione <%= @carg_campione.id %>
+  <:subtitle>This is a carg_campione record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/carg_campioni/#{@carg_campione}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit carg_campione</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Foglio"><%= @carg_campione.foglio %></:item>
+  <:item title="Sigla cam"><%= @carg_campione.sigla_cam %></:item>
+  <:item title="Layer"><%= @carg_campione.layer %></:item>
+  <:item title="Litologia"><%= @carg_campione.litologia %></:item>
+  <:item title="Ctr"><%= @carg_campione.ctr %></:item>
+  <:item title="Uc lege mappa"><%= @carg_campione.uc_lege_mappa %></:item>
+  <:item title="Uc lege"><%= @carg_campione.uc_lege %></:item>
+  <:item title="Sigla"><%= @carg_campione.sigla %></:item>
+  <:item title="Sigla dubbi"><%= @carg_campione.sigla_dubbi %></:item>
+  <:item title="Sigla carta"><%= @carg_campione.sigla_carta %></:item>
+  <:item title="Anc"><%= @carg_campione.anc %></:item>
+  <:item title="A ss"><%= @carg_campione.a_ss %></:item>
+  <:item title="A paleo"><%= @carg_campione.a_paleo %></:item>
+  <:item title="A chimica"><%= @carg_campione.a_chimica %></:item>
+  <:item title="Quota"><%= @carg_campione.quota %></:item>
+  <:item title="Localita"><%= @carg_campione.localita %></:item>
+  <:item title="Note"><%= @carg_campione.note_egidia %></:item>
+  <:item title="Ps spedito"><%= @carg_campione.ps_spedito %></:item>
+  <:item title="Ps reso"><%= @carg_campione.ps_reso %></:item>
+  <:item title="Uscita"><%= @carg_campione.uscita %></:item>
+  <:item title="Stop"><%= @carg_campione.stop %></:item>
+</.list>
+
+<.back navigate={~p"/carg_campioni"}>Back to carg_campioni</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="carg_campione-modal"
+  show
+  on_cancel={JS.patch(~p"/carg_campioni/#{@carg_campione}")}
+>
+  <.live_component
+    module={EdomuWeb.CargCampioneLive.FormComponent}
+    id={@carg_campione.id}
+    title={@page_title}
+    action={@live_action}
+    carg_campione={@carg_campione}
+    patch={~p"/carg_campioni/#{@carg_campione}"}
+  />
+</.modal>
