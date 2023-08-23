@@ -24,7 +24,10 @@ defmodule EdomuWeb.Router do
       on_mount: {EdomuWeb.UserAuth, :ensure_authenticated} do
       live "/xga", Xga.XgaLive
       live "/servizio_idrografico", Idrografico.IdroLive
+
+      # CARG
       live "/carg", Carg.CargLive
+      live "/carg/:foglio", Carg.CargLive
 
       # SENSORE CAE STAZIONE E GRAND_SASSARI
       live "/cae_ss_grand", CaeSsGrandLive.Index, :index
