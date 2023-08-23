@@ -15,6 +15,8 @@
   <:col :let={{_id, wlink}} label="Url"><%= wlink.url %></:col>
   <:col :let={{_id, wlink}} label="Descrizione"><%= wlink.descrizione %></:col>
   <:col :let={{_id, wlink}} label="Intranet"><%= wlink.intranet %></:col>
+  <:col :let={{_id, wlink}} label="Classe"><%= wlink.classe %></:col>
+  <:col :let={{_id, wlink}} label="Membro"><%= wlink.membro %></:col>
   <:action :let={{_id, wlink}}>
     <div class="sr-only">
       <.link navigate={~p"/wlinks/#{wlink}"}>Show</.link>

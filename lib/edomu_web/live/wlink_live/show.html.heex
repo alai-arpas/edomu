@@ -12,11 +12,18 @@
   <:item title="Url"><%= @wlink.url %></:item>
   <:item title="Descrizione"><%= @wlink.descrizione %></:item>
   <:item title="Intranet"><%= @wlink.intranet %></:item>
+  <:item title="Classe"><%= @wlink.classe %></:item>
+  <:item title="Membro"><%= @wlink.membro %></:item>
 </.list>
 
 <.back navigate={~p"/wlinks"}>Back to wlinks</.back>
 
-<.modal :if={@live_action == :edit} id="wlink-modal" show on_cancel={JS.patch(~p"/wlinks/#{@wlink}")}>
+<.modal
+  :if={@live_action == :edit}
+  id="wlink-modal"
+  show
+  on_cancel={JS.patch(~p"/wlinks/#{@wlink}")}
+>
   <.live_component
     module={EdomuWeb.WlinkLive.FormComponent}
     id={@wlink.id}

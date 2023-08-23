@@ -21,6 +21,8 @@ defmodule EdomuWeb.WlinkLive.FormComponent do
       >
         <.input field={@form[:url]} type="text" label="Url" />
         <.input field={@form[:descrizione]} type="text" label="Descrizione" />
+        <.input field={@form[:classe]} type="text" label="Classe" />
+        <.input field={@form[:membro]} type="text" label="Membro" />
         <.input field={@form[:intranet]} type="checkbox" label="Intranet" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Wlink</.button>
