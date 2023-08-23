@@ -1,67 +1,13 @@
-<.header>
-  Listing Carg campioni
-  <:actions>
-    <.link patch={~p"/carg_campioni/new"}>
-      <.button>New Carg campione</.button>
-    </.link>
-  </:actions>
-</.header>
-
-<.table
-  id="carg_campioni"
-  rows={@streams.carg_campioni}
-  row_click={fn {_id, carg_campione} -> JS.navigate(~p"/carg_campioni/#{carg_campione}") end}
->
-  <:col :let={{_id, carg_campione}} label="Foglio"><%= carg_campione.foglio %></:col>
-  <:col :let={{_id, carg_campione}} label="Sigla cam"><%= carg_campione.sigla_cam %></:col>
-  <:col :let={{_id, carg_campione}} label="Layer"><%= carg_campione.layer %></:col>
-  <:col :let={{_id, carg_campione}} label="Litologia"><%= carg_campione.litologia %></:col>
-  <:col :let={{_id, carg_campione}} label="Ctr"><%= carg_campione.ctr %></:col>
-  <:col :let={{_id, carg_campione}} label="Uc lege mappa">
-    <%= carg_campione.uc_lege_mappa %>
-  </:col>
-  <:col :let={{_id, carg_campione}} label="Uc lege"><%= carg_campione.uc_lege %></:col>
-  <:col :let={{_id, carg_campione}} label="Sigla"><%= carg_campione.sigla %></:col>
-  <:col :let={{_id, carg_campione}} label="Sigla dubbi"><%= carg_campione.sigla_dubbi %></:col>
-  <:col :let={{_id, carg_campione}} label="Sigla carta"><%= carg_campione.sigla_carta %></:col>
-  <:col :let={{_id, carg_campione}} label="Anc"><%= carg_campione.anc %></:col>
-  <:col :let={{_id, carg_campione}} label="A ss"><%= carg_campione.a_ss %></:col>
-  <:col :let={{_id, carg_campione}} label="A paleo"><%= carg_campione.a_paleo %></:col>
-  <:col :let={{_id, carg_campione}} label="A chimica"><%= carg_campione.a_chimica %></:col>
-  <:col :let={{_id, carg_campione}} label="Quota"><%= carg_campione.quota %></:col>
-  <:col :let={{_id, carg_campione}} label="Localita"><%= carg_campione.localita %></:col>
-  <:col :let={{_id, carg_campione}} label="Ps spedito"><%= carg_campione.ps_spedito %></:col>
-  <:col :let={{_id, carg_campione}} label="Ps reso"><%= carg_campione.ps_reso %></:col>
-  <:col :let={{_id, carg_campione}} label="Uscita"><%= carg_campione.uscita %></:col>
-  <:col :let={{_id, carg_campione}} label="Stop"><%= carg_campione.stop %></:col>
-  <:action :let={{_id, carg_campione}}>
-    <div class="sr-only">
-      <.link navigate={~p"/carg_campioni/#{carg_campione}"}>Show</.link>
+index
+<div class="bg-green-200">
+  <.button phx-click="compatta">
+    <%= @visualizza %>
+  </.button>
+  <div class="flex flex-wrap bg-blue-600">
+    <div :for={{_id, camp} <- @streams.carg_campioni} class=" p-1 bg-sky-200">
+      <div class="font-extralight">
+        <%= camp.sigla_cam %>
+      </div>
     </div>
-    <.link patch={~p"/carg_campioni/#{carg_campione}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={{id, carg_campione}}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: carg_campione.id}) |> hide("##{id}")}
-      data-confirm="Are you sure?"
-    >
-      Delete
-    </.link>
-  </:action>
-</.table>
-
-<.modal
-  :if={@live_action in [:new, :edit]}
-  id="carg_campione-modal"
-  show
-  on_cancel={JS.patch(~p"/carg_campioni")}
->
-  <.live_component
-    module={EdomuWeb.CargCampioneLive.FormComponent}
-    id={@carg_campione.id || :new}
-    title={@page_title}
-    action={@live_action}
-    carg_campione={@carg_campione}
-    patch={~p"/carg_campioni"}
-  />
-</.modal>
+  </div>
+</div>
