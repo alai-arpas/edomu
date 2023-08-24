@@ -19,12 +19,9 @@ defmodule EdomuWeb.CargCampioneLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:foglio]} type="number" label="Foglio" />
         <.input field={@form[:sigla_cam]} type="text" label="Sigla cam" />
         <.input field={@form[:layer]} type="text" label="Layer" />
         <.input field={@form[:litologia]} type="text" label="Litologia" />
-        <.input field={@form[:ctr]} type="text" label="Ctr" />
-        <.input field={@form[:uc_lege_mappa]} type="number" label="Uc lege mappa" />
         <.input field={@form[:uc_lege]} type="number" label="Uc lege" />
         <.input field={@form[:sigla]} type="text" label="Sigla" />
         <.input field={@form[:sigla_dubbi]} type="text" label="Sigla dubbi" />

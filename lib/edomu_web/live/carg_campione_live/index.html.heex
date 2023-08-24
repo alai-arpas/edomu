@@ -6,7 +6,7 @@
   <div class="flex flex-wrap">
     <div :for={{_id, camp} <- @streams.beppe}>
       <div class="font-bold text-sm w-12 px-1 border-2 border-blue-300">
-        <.link navigate={~p"/carg_campioni/#{camp.id}/"}>
+        <.link patch={~p"/carg_campioni/#{camp.id}/"}>
           <div class="">
             <div class="bg-white px-1 py-1"><%= camp.num %></div>
           </div>
@@ -27,5 +27,29 @@
         </.link>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="p-10 pointer">
+  Il campione <span class="font-bold"><%= @corrente.sigla_cam %></span>
+  prelevato in località <span class="font-bold"><%= @corrente.localita %></span>
+  a quota <span class="font-bold"><%= @corrente.quota %></span>
+  m.
+  <div :if={@corrente.anc}>
+    ricade nella Formazione <span class="font-bold"><%= @corrente.sigla %></span>
+    (affioramneto non Cartorafato).
+    La sigla in carta è <span class="font-bold"><%= @corrente.sigla_carta %></span>.
+  </div>
+  <div :if={@corrente.anc != "anc"}>
+    ricade nella Formazione <span class="font-bold"><%= @corrente.sigla %></span>.
+  </div>
+  <hr /> La litologia è <span class="font-bold"><%= @corrente.litologia %></span>
+  <hr />
+  <div :if={@corrente.sigla_dubbi}>
+    Da verificare se la sigla sia <span class="font-bold"><%= @corrente.sigla_dubbi %></span>.
+  </div>
+
+  <div :if={@corrente.note_egidia}>
+    Note di Egidia: <%= @corrente.note_egidia %>
   </div>
 </div>
