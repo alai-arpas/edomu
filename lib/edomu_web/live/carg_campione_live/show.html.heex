@@ -1,38 +1,34 @@
 <.header>
-  Carg campione <%= @carg_campione.id %>
+  Campione <%= @carg_campione.sigla_cam %>
   <:subtitle>This is a carg_campione record from your database.</:subtitle>
   <:actions>
     <.link patch={~p"/carg_campioni/#{@carg_campione}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit carg_campione</.button>
+      <.button>Edit</.button>
     </.link>
   </:actions>
 </.header>
 
-<.list>
-  <:item title="Foglio"><%= @carg_campione.foglio %></:item>
-  <:item title="Sigla cam"><%= @carg_campione.sigla_cam %></:item>
-  <:item title="Layer"><%= @carg_campione.layer %></:item>
-  <:item title="Litologia"><%= @carg_campione.litologia %></:item>
-  <:item title="Ctr"><%= @carg_campione.ctr %></:item>
-  <:item title="Uc lege mappa"><%= @carg_campione.uc_lege_mappa %></:item>
-  <:item title="Uc lege"><%= @carg_campione.uc_lege %></:item>
-  <:item title="Sigla"><%= @carg_campione.sigla %></:item>
-  <:item title="Sigla dubbi"><%= @carg_campione.sigla_dubbi %></:item>
-  <:item title="Sigla carta"><%= @carg_campione.sigla_carta %></:item>
-  <:item title="Anc"><%= @carg_campione.anc %></:item>
-  <:item title="A ss"><%= @carg_campione.a_ss %></:item>
-  <:item title="A paleo"><%= @carg_campione.a_paleo %></:item>
-  <:item title="A chimica"><%= @carg_campione.a_chimica %></:item>
-  <:item title="Quota"><%= @carg_campione.quota %></:item>
-  <:item title="Localita"><%= @carg_campione.localita %></:item>
-  <:item title="Note"><%= @carg_campione.note_egidia %></:item>
-  <:item title="Ps spedito"><%= @carg_campione.ps_spedito %></:item>
-  <:item title="Ps reso"><%= @carg_campione.ps_reso %></:item>
-  <:item title="Uscita"><%= @carg_campione.uscita %></:item>
-  <:item title="Stop"><%= @carg_campione.stop %></:item>
-</.list>
+<.back navigate={~p"/carg_campioni"}>Ritorna alla lista campioni</.back>
+<hr />
 
-<.back navigate={~p"/carg_campioni"}>Back to carg_campioni</.back>
+<div>
+  <div>Layer: <%= @carg_campione.layer %></div>
+  <div>Litologia: <%= @carg_campione.litologia %></div>
+  <div>Sigla: <%= @carg_campione.sigla %></div>
+  <div>Sigla dubbi: <%= @carg_campione.sigla_dubbi %></div>
+  <div>Sigla carta: <%= @carg_campione.sigla_carta %></div>
+  <div>Affioramento non Cartografabile: <%= @carg_campione.anc %></div>
+  <div>Analisi SS: <%= @carg_campione.a_ss %></div>
+  <div>Analisi paleo: <%= @carg_campione.a_paleo %></div>
+  <div>Analisi chimica: <%= @carg_campione.a_chimica %></div>
+  <div>Quota: <%= @carg_campione.quota %></div>
+  <div>Localita: <%= @carg_campione.localita %></div>
+  <div>Note: <%= @carg_campione.note_egidia %></div>
+  <div>Ps spedito: <%= @carg_campione.ps_spedito %></div>
+  <div>Ps reso: <%= @carg_campione.ps_reso %></div>
+  <div>Uscita: <%= @carg_campione.uscita %></div>
+  <div>Stop: <%= @carg_campione.stop %></div>
+</div>
 
 <.modal
   :if={@live_action == :edit}

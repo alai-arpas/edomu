@@ -1,12 +1,30 @@
-index
-<div class="bg-green-200">
-  <.button phx-click="compatta">
-    <%= @visualizza %>
-  </.button>
-  <div class="flex flex-wrap bg-blue-600">
-    <div :for={{_id, camp} <- @streams.carg_campioni} class=" p-1 bg-sky-200">
-      <div class="text-sm">
-        <%= camp.sigla_cam %>
+<div class="px-1 py-1">
+  CAMPIONI FOGLIO - <span class="font-bold">MOGORO 539</span>
+</div>
+<div class="">
+  <div>Beppe Pisano (<span class="font-bold">BP</span>)</div>
+  <div class="flex flex-wrap">
+    <div :for={{_id, camp} <- @streams.beppe}>
+      <div class="font-bold text-sm w-12 px-1 border-2 border-blue-300">
+        <.link navigate={~p"/carg_campioni/#{camp.id}/"}>
+          <div class="">
+            <div class="bg-white px-1 py-1"><%= camp.num %></div>
+          </div>
+        </.link>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="">
+  <div class="bg-yellow-100 px-1 py-1">Danila Patta (<span class="font-bold">DP</span>)</div>
+  <div class="flex flex-wrap">
+    <div :for={{_id, camp} <- @streams.danila}>
+      <div class="font-bold text-sm w-12 px-1 border-2 border-blue-300">
+        <.link navigate={~p"/carg_campioni/#{camp.id}/"}>
+          <div class="">
+            <div class="bg-yellow-100 px-1 py-1"><%= camp.num %></div>
+          </div>
+        </.link>
       </div>
     </div>
   </div>
