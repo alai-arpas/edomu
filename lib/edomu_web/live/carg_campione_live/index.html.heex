@@ -16,13 +16,13 @@
   </div>
 </div>
 <div class="">
-  <div class="bg-yellow-100 px-1 py-1">Danila Patta (<span class="font-bold">DP</span>)</div>
+  <div class=" px-1 py-1">Danila Patta (<span class="font-bold">DP</span>)</div>
   <div class="flex flex-wrap">
     <div :for={{_id, camp} <- @streams.danila}>
       <div class="font-bold text-sm w-12 px-1 border-2 border-blue-300">
         <.link navigate={~p"/carg_campioni/#{camp.id}/"}>
           <div class="">
-            <div class="bg-yellow-100 px-1 py-1"><%= camp.num %></div>
+            <div class="bg-white px-1 py-1"><%= camp.num %></div>
           </div>
         </.link>
       </div>
@@ -31,7 +31,7 @@
 </div>
 
 <div class="p-10 pointer">
-  Il campione <span class="font-bold"><%= @corrente.sigla_cam %></span>
+  Campione <span class="font-bold"><%= @corrente.sigla_cam %></span>
   prelevato in località <span class="font-bold"><%= @corrente.localita %></span>
   a quota <span class="font-bold"><%= @corrente.quota %></span>
   m.
@@ -49,6 +49,16 @@
     Da verificare se la sigla sia <span class="font-bold"><%= @corrente.sigla_dubbi %></span>.
   </div>
 
+  <hr />
+  <div class="bg-white">
+    <ul>
+      <li :if={@corrente.a_ss} class="font-bold">Sezioni Sottili</li>
+      <li :if={@corrente.a_chimica} class="font-bold">Analisi Chimica</li>
+      <li :if={@corrente.a_paleo} class="font-bold">Paleontologica</li>
+    </ul>
+  </div>
+
+  <hr />
   <div :if={@corrente.note_egidia}>
     Note di Egidia: <%= @corrente.note_egidia %>
   </div>
