@@ -6,7 +6,11 @@ defmodule EdomuWeb.CargCampioneLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    socket = stream(socket, :carg_campioni, CargCampioni.list_carg_campioni())
+    campioni = CargCampioni.lista_ordinata()
+    %{beppe: beppe, danila: danila} = CargCampioni.beppe_danila()
+    socket = stream(socket, :carg_campioni, campioni)
+    socket = stream(socket, :danila, danila)
+    socket = stream(socket, :beppe, beppe)
     socket = assign(socket, :visualizza, "compatta")
 
     {:ok, socket}

@@ -8,6 +8,10 @@ defmodule Edomu.CargCampioni do
 
   alias Edomu.CargCampioni.CargCampione
 
+  def list_carg_campioni do
+    Repo.all(CargCampione, order_by: :sigla_cam)
+  end
+
   @doc """
   Returns the list of carg_campioni.
 
@@ -17,8 +21,33 @@ defmodule Edomu.CargCampioni do
       [%CargCampione{}, ...]
 
   """
-  def list_carg_campioni do
-    Repo.all(CargCampione)
+  def lista_ordinata do
+    query =
+      from c in "carg_campioni",
+        prefix: "carg",
+        select: %{id: c.id, sigla_cam: c.sigla_cam},
+        order_by: c.sigla_cam
+
+    Repo.all(query)
+  end
+
+  def beppe_danila do
+    {beppe, danila} =
+      lista_ordinata()
+      |> Enum.map(fn %{id: _id, sigla_cam: cam} = m ->
+        Map.put(m, :num, String.slice(cam, 2, 10))
+      end)
+      |> Enum.split_with(&separa/1)
+
+    %{beppe: beppe, danila: danila}
+  end
+
+  def separa(%{id: _id, sigla_cam: sigla_cam, num: _num}) do
+    if String.starts_with?(sigla_cam, "BP") do
+      true
+    else
+      false
+    end
   end
 
   @doc """
