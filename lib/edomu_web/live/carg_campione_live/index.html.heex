@@ -1,4 +1,7 @@
 <div class="px-1 py-1">
+  <.link patch={~p"/carg_campioni/new"}>
+    <.button class="bg-blue-500">Nuovo Campione</.button>
+  </.link>
   CAMPIONI FOGLIO - <span class="font-bold">MOGORO 539</span>
 </div>
 <div class="">
@@ -30,36 +33,60 @@
   </div>
 </div>
 
-<div class="p-10 pointer">
-  Campione <span class="font-bold"><%= @corrente.sigla_cam %></span>
-  prelevato in località <span class="font-bold"><%= @corrente.localita %></span>
-  a quota <span class="font-bold"><%= @corrente.quota %></span>
-  m.
-  <div :if={@corrente.anc}>
-    ricade nella Formazione <span class="font-bold"><%= @corrente.sigla %></span>
-    (affioramneto non Cartorafato).
-    La sigla in carta è <span class="font-bold"><%= @corrente.sigla_carta %></span>.
-  </div>
-  <div :if={@corrente.anc != "anc"}>
-    ricade nella Formazione <span class="font-bold"><%= @corrente.sigla %></span>.
-  </div>
-  <hr /> La litologia è <span class="font-bold"><%= @corrente.litologia %></span>
-  <hr />
-  <div :if={@corrente.sigla_dubbi}>
-    Da verificare se la sigla sia <span class="font-bold"><%= @corrente.sigla_dubbi %></span>.
-  </div>
+<div :if={@carg_campione}>
+  <div class="p-10 pointer">
+    Campione <span class="font-bold"><%= @carg_campione.sigla_cam %></span>
+    prelevato in località <span class="font-bold"><%= @carg_campione.localita %></span>
+    a quota <span class="font-bold"><%= @carg_campione.quota %></span>
+    m.
+    <div :if={@carg_campione.anc}>
+      ricade nella Formazione <span class="font-bold"><%= @carg_campione.sigla %></span>
+      (affioramneto non Cartorafato).
+      La sigla in carta è <span class="font-bold"><%= @carg_campione.sigla_carta %></span>.
+    </div>
+    <div :if={@carg_campione.anc != "anc"}>
+      ricade nella Formazione <span class="font-bold"><%= @carg_campione.sigla %></span>.
+    </div>
+    <hr /> La litologia è <span class="font-bold"><%= @carg_campione.litologia %></span>
+    <hr />
+    <div :if={@carg_campione.sigla_dubbi}>
+      Da verificare se la sigla sia <span class="font-bold"><%= @carg_campione.sigla_dubbi %></span>.
+    </div>
 
-  <hr />
-  <div class="bg-white">
-    <ul>
-      <li :if={@corrente.a_ss} class="font-bold">Sezioni Sottili</li>
-      <li :if={@corrente.a_chimica} class="font-bold">Analisi Chimica</li>
-      <li :if={@corrente.a_paleo} class="font-bold">Paleontologica</li>
-    </ul>
-  </div>
+    <hr />
+    <div class="bg-white">
+      <ul>
+        <li :if={@carg_campione.a_ss} class="font-bold">Sezioni Sottili</li>
+        <li :if={@carg_campione.a_chimica} class="font-bold">Analisi Chimica</li>
+        <li :if={@carg_campione.a_paleo} class="font-bold">Paleontologica</li>
+      </ul>
+    </div>
 
-  <hr />
-  <div :if={@corrente.note_egidia}>
-    Note di Egidia: <%= @corrente.note_egidia %>
+    <hr />
+    <div :if={@carg_campione.note_egidia}>
+      Note di Egidia: <%= @carg_campione.note_egidia %>
+    </div>
+
+    <div :if={@carg_campione.id}>
+      <.link patch={~p"/carg_campioni/#{@carg_campione.id}/edit"}>
+        <.button class="bg-blue-500">Modifica</.button>
+      </.link>
+    </div>
   </div>
 </div>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="carg_campione-modal"
+  show
+  on_cancel={JS.patch(~p"/carg_campioni")}
+>
+  <.live_component
+    module={EdomuWeb.CargCampioneLive.FormComponent}
+    id={@carg_campione.id || :new}
+    title={@page_title}
+    action={@live_action}
+    carg_campione={@carg_campione}
+    patch={~p"/carg_campioni"}
+  />
+</.modal>

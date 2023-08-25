@@ -5,11 +5,12 @@ defmodule EdomuWeb.CargCampioneLive.FormComponent do
 
   @impl true
   def render(assigns) do
+    IO.inspect(assigns, label: "RENDER")
+
     ~H"""
-    <div>
+    <div class="">
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage carg_campione records in your database.</:subtitle>
       </.header>
 
       <.simple_form
@@ -19,24 +20,28 @@ defmodule EdomuWeb.CargCampioneLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:sigla_cam]} type="text" label="Sigla cam" />
-        <.input field={@form[:layer]} type="text" label="Layer" />
+        <div class="flex">
+          <.input field={@form[:sigla_cam]} type="text" label="Sigla campione" />
+          <.input field={@form[:localita]} type="text" label="Località" />
+          <.input field={@form[:quota]} type="number" label="Quota" />
+        </div>
         <.input field={@form[:litologia]} type="text" label="Litologia" />
-        <.input field={@form[:uc_lege]} type="number" label="Uc lege" />
-        <.input field={@form[:sigla]} type="text" label="Sigla" />
-        <.input field={@form[:sigla_dubbi]} type="text" label="Sigla dubbi" />
-        <.input field={@form[:sigla_carta]} type="text" label="Sigla carta" />
-        <.input field={@form[:anc]} type="text" label="Anc" />
-        <.input field={@form[:a_ss]} type="text" label="A ss" />
-        <.input field={@form[:a_paleo]} type="text" label="A paleo" />
-        <.input field={@form[:a_chimica]} type="text" label="A chimica" />
-        <.input field={@form[:quota]} type="number" label="Quota" />
-        <.input field={@form[:localita]} type="text" label="Localita" />
+
+        <div class="flex">
+          <.input field={@form[:sigla]} type="text" label="Sigla" />
+          <.input field={@form[:sigla_dubbi]} type="text" label="Dubbi" />
+          <.input field={@form[:sigla_carta]} type="text" label="In Carta" />
+          <.input field={@form[:anc]} type="text" label="Non cartografabile" />
+          <.input field={@form[:layer]} type="text" label="Layer" />
+        </div>
+
+        <div class="flex">
+          <.input field={@form[:a_ss]} type="text" label="Analisi sezioni sottile" />
+          <.input field={@form[:a_chimica]} type="text" label="Chimica" />
+          <.input field={@form[:a_paleo]} type="text" label="Paleontologica" />
+        </div>
+
         <.input field={@form[:note_egidia]} type="text" label="Note" />
-        <.input field={@form[:ps_spedito]} type="number" label="Ps spedito" />
-        <.input field={@form[:ps_reso]} type="text" label="Ps reso" />
-        <.input field={@form[:uscita]} type="number" label="Uscita" />
-        <.input field={@form[:stop]} type="number" label="Stop" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Carg campione</.button>
         </:actions>

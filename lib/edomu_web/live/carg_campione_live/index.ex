@@ -2,7 +2,7 @@ defmodule EdomuWeb.CargCampioneLive.Index do
   use EdomuWeb, :live_view
 
   alias Edomu.CargCampioni
-  # alias Edomu.CargCampioni.CargCampione
+  alias Edomu.CargCampioni.CargCampione
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,35 +17,37 @@ defmodule EdomuWeb.CargCampioneLive.Index do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, url, socket) do
-    IO.inspect(url, label: "url")
-    socket = assign(socket, :corrente, CargCampioni.get_carg_campione!(id))
-    # {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-    {:noreply, socket}
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  def handle_params(_params, _url, socket) do
-    socket = assign(socket, :corrente, CargCampioni.get_carg_campione!(1))
-    {:noreply, socket}
+  defp apply_action(socket, :edit, %{"id" => id}) do
+    campione = CargCampioni.get_carg_campione!(id)
+
+    socket
+    |> assign(:page_title, "Modifica del campione: #{campione.sigla_cam}")
+    |> assign(:carg_campione, campione)
   end
 
-  # defp apply_action(socket, :edit, %{"id" => id}) do
-  #   socket
-  #   |> assign(:page_title, "Edit Carg campione")
-  #   |> assign(:carg_campione, CargCampioni.get_carg_campione!(id))
-  # end
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "Nuovo campione")
+    |> assign(:carg_campione, %CargCampione{})
+  end
 
-  # defp apply_action(socket, :new, _params) do
-  #   socket
-  #   |> assign(:page_title, "New Carg campione")
-  #   |> assign(:carg_campione, %CargCampione{})
-  # end
+  defp apply_action(socket, :index, params) do
+    campione =
+      if params != %{} do
+        %{"id" => id} = params
+        CargCampioni.get_carg_campione!(id)
+      else
+        nil
+      end
 
-  # defp apply_action(socket, :index, _params) do
-  #   socket
-  #   |> assign(:page_title, "Listing Carg campioni")
-  #   |> assign(:carg_campione, nil)
-  # end
+    socket
+    |> assign(:page_title, "Campioni")
+    |> assign(:carg_campione, campione)
+  end
 
   @impl true
   def handle_info({EdomuWeb.CargCampioneLive.FormComponent, {:saved, carg_campione}}, socket) do
