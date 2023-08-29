@@ -1,18 +1,37 @@
-<h1>File esportati da xga in .csv</h1>
-<h2 class="bg-red-200"><%= @directory %></h2>
-<div class="flex">
-  <div class="columns-10 max-w-2xl">
-    <div :for={csv <- @csvs}>
-      <button
-        phx-click="Annomese"
-        phx-value-file={csv["file"]}
-        phx-value-anno={csv["anno"]}
-        phx-value-mese={csv["mese"]}
-        type="submit"
-        class="bg-red-300"
-      >
-        <%= csv["anno"] %><%= csv["mese"] %>
-      </button>
+<div class="flex bg-red-300">
+  <div class="flex flex-col bg-slate-400">
+    <h1>
+      <span class="font-bold">Il separatore decimale è il punto "."</span>
+    </h1>
+    <h2 class="bg-blue-200 font-semibold"><%= @directory %></h2>
+    <div class="columns-10 max-w-2xl">
+      <div :for={csv <- @csvs_punto}>
+        <button
+          phx-click="add_to_elabora"
+          phx-value-file={csv["file"]}
+          phx-value-anno={csv["anno"]}
+          phx-value-mese={csv["mese"]}
+          type="submit"
+          class="bg-blue-100"
+        >
+          <%= csv["anno"] %><%= csv["mese"] %>
+        </button>
+      </div>
+    </div>
+    <hr />
+    <div class="columns-10 max-w-2xl bg-white">
+      <div :for={csv <- @elabora}>
+        <button
+          phx-click="delete_from_elabora"
+          phx-value-file={csv["file"]}
+          phx-value-anno={csv["anno"]}
+          phx-value-mese={csv["mese"]}
+          type="submit"
+          class="bg-green-300"
+        >
+          <%= csv["anno"] %><%= csv["mese"] %>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -29,31 +48,26 @@
     </div>
   </div>
 
-  <div class="flex flex-col bg-white">
-    <.header>
-      Sensori(CAE) presenti nei file, senza stazione CAE o ARPAS
-    </.header>
+  <div class="flex flex-col">
+    <.header>Sensori(CAE) presenti nei file, senza stazione CAE o ARPAS</.header>
 
     <.table id="stazioni_nulle" rows={@stazioni_nulle}>
       <:col :let={sensore} label="id cae_ss_grand"><%= sensore.cae_ss_grand_id %></:col>
       <:col :let={sensore} label="Sensore CAE"><%= sensore.sensore %></:col>
-      <:col :let={sensore} label="Stazione CAE">
-        <%= sensore.stazione_cae %>
-      </:col>
-      <:col :let={sensore} label="Stazione Arpas">
-        <div class="bg-red-200 font-extrabold">
-          <%= sensore.stazione_arpas %>ASSENTE
-        </div>
-      </:col>
+      <:col :let={sensore} label="Stazione CAE"><%= sensore.stazione_cae %></:col>
+      <:col :let={sensore} label="Stazione Arpas"><%= sensore.stazione_arpas %>ASSENTE</:col>
       <:col :let={sensore} label="Anno"><%= sensore.anno %></:col>
       <:col :let={sensore} label="mese"><%= sensore.mese %></:col>
       <:col :let={sensore} label="grandezza"><%= sensore.grand %></:col>
       <:col :let={sensore} label="usato"><%= sensore.usa %></:col>
+
       <:action :let={sensore}>
-        <div :if={sensore.cae_ss_grand_id} class="">
-          <.link navigate={~p"/cae_ss_grand/#{sensore.cae_ss_grand_id}/edit"}>Edit Sensore</.link>
+        <div :if={sensore.cae_ss_grand_id}>
+          <.link navigate={~p"/cae_ss_grand/#{sensore.cae_ss_grand_id}/edit"}>
+            Edit Sensore
+          </.link>
         </div>
-        <div :if={sensore.cae_ss_grand_id == nil} class="">
+        <div :if={sensore.cae_ss_grand_id == nil}>
           <.link navigate={~p"/cae_ss_grand/new"}>New Sensore</.link>
         </div>
       </:action>

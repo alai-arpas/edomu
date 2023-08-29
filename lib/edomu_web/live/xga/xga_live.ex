@@ -6,14 +6,14 @@ defmodule EdomuWeb.Xga.XgaLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    csvs = Xga.struttura_files()
+    csvs_punto = Xga.struttura_files_punto()
 
     socket =
       assign(socket,
-        modulo: "Modulo XgaLive",
-        csvs: csvs,
-        directory: Xga.csv_dir(),
-        corrente: csvs |> hd,
+        csvs_punto: csvs_punto,
+        elabora: [],
+        directory: Xga.csv_dir_punto(),
+        corrente: csvs_punto |> hd,
         messaggi: [],
         stazioni_nulle: Cae.stazioni_null()
       )
@@ -23,9 +23,17 @@ defmodule EdomuWeb.Xga.XgaLive do
 
   @impl true
   def handle_event("Annomese", params, socket) do
-    IO.inspect(params, label: "Annomese")
-
     {:noreply, assign(socket, corrente: params, messaggi: [])}
+  end
+
+  def handle_event("add_to_elabora", params, socket) do
+    csvs_punto = socket.assigns.csvs_punto
+    params = Map.drop(params, ["value"])
+
+    csvs_punto = Enum.filter(csvs_punto, fn m -> m != params end)
+    IO.inspect(params, label: "params")
+    elabora = socket.assigns.elabora ++ [params]
+    {:noreply, assign(socket, elabora: elabora, csvs_punto: csvs_punto)}
   end
 
   @impl true
@@ -36,19 +44,5 @@ defmodule EdomuWeb.Xga.XgaLive do
 
     colonne = Xga.colonne_da_csv(file) |> Enum.take(8)
     {:noreply, assign(socket, messaggi: colonne)}
-  end
-
-  @impl true
-  def handle_info(message, socket) do
-    copia =
-      case message do
-        {msg, file} ->
-          %{nomefile: file, azione: msg}
-
-        {msg, file, :ok} ->
-          %{nomefile: file, azione: msg}
-      end
-
-    {:noreply, assign(socket, copia_csv: copia)}
   end
 end

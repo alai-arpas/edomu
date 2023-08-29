@@ -2,21 +2,16 @@ defmodule EdomuWeb.Xga.XgaCopiaLive do
   use EdomuWeb, :live_view
 
   alias Arpos.Toolbox.CaeXga, as: Xga
-  alias Edomu.Cae
-
-  def struttura_files do
-    Xga.csv_files_punto()
-    |> Enum.map(&Xga.file_anno_mese/1)
-  end
 
   @impl true
   def mount(_params, _session, socket) do
     csvs = Xga.struttura_files()
+    csvs_punto = Xga.struttura_files_punto()
 
     socket =
       assign(socket,
         csvs: csvs,
-        csvs_punto: struttura_files(),
+        csvs_punto: csvs_punto,
         directory: Xga.csv_dir(),
         copia_csv: %{nomefile: "", azione: ""}
       )
@@ -27,7 +22,7 @@ defmodule EdomuWeb.Xga.XgaCopiaLive do
   @impl true
   def handle_event("cancella_copie", _params, socket) do
     Enum.each(Xga.csv_files_punto(), &File.rm(&1))
-    {:noreply, assign(socket, csvs_punto: struttura_files())}
+    {:noreply, assign(socket, csvs_punto: Xga.struttura_files_punto())}
   end
 
   @impl true
@@ -54,6 +49,6 @@ defmodule EdomuWeb.Xga.XgaCopiaLive do
           %{nomefile: file, azione: msg}
       end
 
-    {:noreply, assign(socket, copia_csv: copia, csvs_punto: struttura_files())}
+    {:noreply, assign(socket, copia_csv: copia, csvs_punto: Xga.struttura_files_punto())}
   end
 end
