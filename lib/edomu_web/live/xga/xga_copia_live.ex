@@ -26,17 +26,8 @@ defmodule EdomuWeb.Xga.XgaCopiaLive do
 
   @impl true
   def handle_event("cancella_copie", _params, socket) do
-    {:noreply, assign(socket, corrente: params, messaggi: [])}
-  end
-
-  @impl true
-  def handle_event("colonne", _params, socket) do
-    corrente = socket.assigns.corrente
-    IO.inspect(corrente, label: "corrente")
-    file = corrente["file"]
-
-    colonne = Xga.colonne_da_csv(file) |> Enum.take(8)
-    {:noreply, assign(socket, messaggi: colonne)}
+    Enum.each(Xga.csv_files_punto(), &File.rm(&1))
+    {:noreply, assign(socket, csvs_punto: struttura_files())}
   end
 
   @impl true
