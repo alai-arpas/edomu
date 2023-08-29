@@ -25,9 +25,7 @@ defmodule EdomuWeb.Xga.XgaCopiaLive do
   end
 
   @impl true
-  def handle_event("Annomese", params, socket) do
-    IO.inspect(params, label: "Annomese")
-
+  def handle_event("cancella_copie", _params, socket) do
     {:noreply, assign(socket, corrente: params, messaggi: [])}
   end
 
