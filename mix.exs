@@ -51,7 +51,8 @@ defmodule Edomu.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:arpos, "~> 0.1.10"}
+      {:arpos, "~> 0.1.11"},
+      {:earmark_parser, "~> 1.4"}
     ]
   end
 

@@ -5,8 +5,6 @@ defmodule EdomuWeb.CargCampioneLive.FormComponent do
 
   @impl true
   def render(assigns) do
-    IO.inspect(assigns, label: "RENDER")
-
     ~H"""
     <div class="">
       <.header>
@@ -31,14 +29,35 @@ defmodule EdomuWeb.CargCampioneLive.FormComponent do
           <.input field={@form[:sigla]} type="text" label="Sigla" />
           <.input field={@form[:sigla_dubbi]} type="text" label="Dubbi" />
           <.input field={@form[:sigla_carta]} type="text" label="In Carta" />
-          <.input field={@form[:anc]} type="text" label="Non cartografabile" />
-          <.input field={@form[:layer]} type="text" label="Layer" />
+          <.input field={@form[:non_cartografato]} type="checkbox" label="ANC" />
         </div>
 
         <div class="flex">
-          <.input field={@form[:a_ss]} type="text" label="Analisi sezioni sottile" />
-          <.input field={@form[:a_chimica]} type="text" label="Chimica" />
-          <.input field={@form[:a_paleo]} type="text" label="Paleontologica" />
+          <.input
+            field={@form[:a_ss]}
+            id="id_a_ss"
+            options={analisi_options()}
+            prompt="Analisi?"
+            type="select"
+            label="Sezioni sottile"
+          />
+          <.input
+            id="id_a_chimica"
+            field={@form[:a_chimica]}
+            options={analisi_options()}
+            prompt="Analisi?"
+            type="select"
+            label="Chimica"
+          />
+          <.input
+            id="id_a_paleo"
+            field={@form[:a_paleo]}
+            options={analisi_options()}
+            prompt="Analisi?"
+            type="select"
+            label="Paleontologica"
+          />
+          <.input field={@form[:layer]} type="text" label="Layer" />
         </div>
 
         <.input field={@form[:note_egidia]} type="text" label="Note" />
@@ -46,6 +65,7 @@ defmodule EdomuWeb.CargCampioneLive.FormComponent do
           <.button phx-disable-with="Saving...">Save Carg campione</.button>
         </:actions>
       </.simple_form>
+      Compilazione ANC:  Seleziona per Affioramento non cartografabile
     </div>
     """
   end
@@ -109,4 +129,23 @@ defmodule EdomuWeb.CargCampioneLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  defp analisi_options do
+    [
+      SI: "SI",
+      FARE: "fare",
+      NO: nil
+    ]
+  end
+
+  #   <select name="type">
+  #   <%= Phoenix.HTML.Form.options_for_select(
+  #     analisi_options(),
+  #     ""
+  #   ) %>
+  # </select>
+
+  def analisi_scelte do
+    %{"SI" => "SI", "" => "NO", "fare" => "fare", "NO" => "NO"}
+  end
 end

@@ -26,6 +26,7 @@ defmodule Edomu.CargCampioni.CargCampione do
     field :uc_lege, :integer
     field :uc_lege_mappa, :integer
     field :uscita, :integer
+    field :non_cartografato, :boolean, default: false
 
     timestamps()
   end
@@ -54,7 +55,8 @@ defmodule Edomu.CargCampioni.CargCampione do
       :ps_spedito,
       :ps_reso,
       :uscita,
-      :stop
+      :stop,
+      :non_cartografato
     ])
     |> validate_required([
       :foglio,

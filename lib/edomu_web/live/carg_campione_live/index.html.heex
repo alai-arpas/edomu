@@ -39,12 +39,12 @@
     prelevato in località <span class="font-bold"><%= @carg_campione.localita %></span>
     a quota <span class="font-bold"><%= @carg_campione.quota %></span>
     m.
-    <div :if={@carg_campione.anc}>
+    <div :if={@carg_campione.non_cartografato}>
       ricade nella Formazione <span class="font-bold"><%= @carg_campione.sigla %></span>
-      (affioramneto non Cartorafato).
+      (affioramento non Cartografato).
       La sigla in carta è <span class="font-bold"><%= @carg_campione.sigla_carta %></span>.
     </div>
-    <div :if={@carg_campione.anc != "anc"}>
+    <div :if={@carg_campione.non_cartografato == false}>
       ricade nella Formazione <span class="font-bold"><%= @carg_campione.sigla %></span>.
     </div>
     <hr /> La litologia è <span class="font-bold"><%= @carg_campione.litologia %></span>
@@ -56,9 +56,21 @@
     <hr />
     <div class="bg-white">
       <ul>
-        <li :if={@carg_campione.a_ss} class="font-bold">Sezioni Sottili</li>
-        <li :if={@carg_campione.a_chimica} class="font-bold">Analisi Chimica</li>
-        <li :if={@carg_campione.a_paleo} class="font-bold">Paleontologica</li>
+        <li :if={@carg_campione.a_ss == "SI" || @carg_campione.a_ss == "fare"} class="font-bold">
+          Sezioni Sottili
+        </li>
+        <li
+          :if={@carg_campione.a_chimica == "SI" || @carg_campione.a_chimica == "fare"}
+          class="font-bold"
+        >
+          Analisi Chimica
+        </li>
+        <li
+          :if={@carg_campione.a_paleo == "SI" || @carg_campione.a_paleo == "fare"}
+          class="font-bold"
+        >
+          Paleontologica
+        </li>
       </ul>
     </div>
 

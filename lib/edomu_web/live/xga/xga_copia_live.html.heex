@@ -1,0 +1,59 @@
+<div class="flex bg-white">
+  <div class="flex flex-col">
+    <h1>
+      File esportati da xga in .csv il separatore decimale è
+      <span class="font-bold">la virgola ","</span>
+    </h1>
+    <h2 class="bg-red-200 font-semibold"><%= @directory %></h2>
+    <div class="columns-10 max-w-2xl">
+      <div :for={csv <- @csvs}>
+        <button
+          phx-click="Annomese"
+          phx-value-file={csv["file"]}
+          phx-value-anno={csv["anno"]}
+          phx-value-mese={csv["mese"]}
+          type="submit"
+          class="bg-red-100"
+        >
+          <%= csv["anno"] %><%= csv["mese"] %>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col p-5 ">
+    File di sinistra
+    <.button class="m-4 bg-red-400" phx-click="copia">
+      Copia ->
+    </.button>
+    <.button class="m-4 bg-red-400" phx-click="copia_sovrascrivi">
+      Copia sovrascrivendo ->
+    </.button>
+    File di destra (PUNTO)
+    <.button class="m-4 bg-blue-400" phx-click="cancella_copie">
+      Cancella copie
+    </.button>
+  </div>
+
+  <div class="flex flex-col">
+    <h1>
+      File copiati e sostituita la virgola.
+      <span class="font-bold">Il separatore decimale è il punto "."</span>
+    </h1>
+    <h2 class="bg-blue-200 font-semibold"><%= @directory %>_PUNTO</h2>
+    <div class="columns-10 max-w-2xl">
+      <div :for={csv <- @csvs_punto}>
+        <button
+          phx-click="Annomese"
+          phx-value-file={csv["file"]}
+          phx-value-anno={csv["anno"]}
+          phx-value-mese={csv["mese"]}
+          type="submit"
+          class="bg-blue-100"
+        >
+          <%= csv["anno"] %><%= csv["mese"] %>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

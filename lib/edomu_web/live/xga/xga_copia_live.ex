@@ -1,8 +1,13 @@
-defmodule EdomuWeb.Xga.XgaLive do
+defmodule EdomuWeb.Xga.XgaCopiaLive do
   use EdomuWeb, :live_view
 
   alias Arpos.Toolbox.CaeXga, as: Xga
   alias Edomu.Cae
+
+  def struttura_files do
+    Xga.csv_files_punto()
+    |> Enum.map(&Xga.file_anno_mese/1)
+  end
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,12 +15,10 @@ defmodule EdomuWeb.Xga.XgaLive do
 
     socket =
       assign(socket,
-        modulo: "Modulo XgaLive",
         csvs: csvs,
+        csvs_punto: struttura_files(),
         directory: Xga.csv_dir(),
-        corrente: csvs |> hd,
-        messaggi: [],
-        stazioni_nulle: Cae.stazioni_null()
+        copia_csv: %{nomefile: "", azione: ""}
       )
 
     {:ok, socket, layout: {EdomuWeb.Layouts, :xga}}
@@ -39,6 +42,19 @@ defmodule EdomuWeb.Xga.XgaLive do
   end
 
   @impl true
+  def handle_event("copia", _payload, socket) do
+    files = Xga.csv_files()
+    Xga.copia_tutto(files, self(), false)
+    {:noreply, socket}
+  end
+
+  def handle_event("copia_sovrascrivi", _payload, socket) do
+    files = Xga.csv_files()
+    Xga.copia_tutto(files, self(), true)
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info(message, socket) do
     copia =
       case message do
@@ -49,6 +65,6 @@ defmodule EdomuWeb.Xga.XgaLive do
           %{nomefile: file, azione: msg}
       end
 
-    {:noreply, assign(socket, copia_csv: copia)}
+    {:noreply, assign(socket, copia_csv: copia, csvs_punto: struttura_files())}
   end
 end
