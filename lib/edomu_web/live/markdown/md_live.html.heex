@@ -1,0 +1,6 @@
+<div :for={file <- @files}>
+  <button phx-click="leggi_file" phx-value-file={file} type="submit" class="bg-blue-100">
+    <%= file %>
+  </button>
+</div>
+<div><%= raw(@contenuto) %></div>

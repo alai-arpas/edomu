@@ -22,6 +22,7 @@ defmodule EdomuWeb.Router do
 
     live_session :authenticated,
       on_mount: {EdomuWeb.UserAuth, :ensure_authenticated} do
+      live "/markdown", Markdown.MdLive
       live "/xga", Xga.XgaLive
       live "/xga_copia", Xga.XgaCopiaLive
       live "/servizio_idrografico", Idrografico.IdroLive
