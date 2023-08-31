@@ -1,4 +1,5 @@
 defmodule EdomuWeb.Pti.PtiLive do
+  alias Mix.ProjectStack
   use EdomuWeb, :live_view
 
   alias Edomu.Files.Utilita, as: UtilFiles
@@ -31,7 +32,7 @@ defmodule EdomuWeb.Pti.PtiLive do
 
   @impl true
   def handle_info(:reset, socket) do
-    Process.send_after(self(), :tick, 1000)
+    IO.inspect(self(), label: "reset")
     {:noreply, assign(socket, :tempo, 0)}
   end
 
@@ -42,8 +43,20 @@ defmodule EdomuWeb.Pti.PtiLive do
   end
 
   def handle_event("leggi_pti", %{"file" => file}, socket) do
-    socket = assign(socket, tempo: 0)
+    risposta = leggi_DF(file)
+    Process.send(self(), :reset, [])
+    {:noreply, assign(socket, letto: risposta)}
+  end
 
+  defp dir_pti, do: Path.join([UtilFiles.windows_share(), "poa", "export_pti_sassari"])
+
+  defp pti_note_nome, do: "README_PTI_orarie_estrapolati da_ORACLE.md"
+
+  defp pti_note_path_completo, do: Path.join([dir_pti(), pti_note_nome()])
+
+  defp pti_files, do: Path.wildcard(Path.join(dir_pti(), "*.csv"))
+
+  def leggi_DF(file) do
     dtypes = [
       {"column_1", :string},
       {"column_2", :string},
@@ -54,7 +67,17 @@ defmodule EdomuWeb.Pti.PtiLive do
       {"column_7", :string}
     ]
 
-    # in csv 2020 sono presenti delle "A" come liv_validaz
+    rinomina = %{
+      "column_1" => "cod_staz",
+      "column_2" => "cod_grand",
+      "column_3" => "data_mis",
+      "column_4" => "valore",
+      "column_5" => "cod_valid",
+      "column_6" => "liv_validaz",
+      "column_7" => "rete"
+    }
+
+    # in csv 2020 sono presenti delle "A" come liv_validaz (column_6)
 
     _columns = ~w(cod_staz cod_grand data_mis valore cod_valid liv_validaz rete)
 
@@ -62,16 +85,10 @@ defmodule EdomuWeb.Pti.PtiLive do
     opts = [delimiter: ";", max_rows: max_rows, header: false, dtypes: dtypes]
 
     df = DF.from_csv!(file, opts)
-    colonne = DF.names(df)
-
-    {:noreply, assign(socket, letto: file)}
+    dfren = DF.rename(df, rinomina)
+    colonne = DF.names(dfren)
+    stringa = Enum.join(colonne, ",")
+    risposta = [file, stringa, DF.n_rows(dfren)]
+    Enum.join(risposta, "\n")
   end
-
-  defp dir_pti, do: Path.join([UtilFiles.windows_share(), "poa", "export_pti_sassari"])
-
-  defp pti_note_nome, do: "README_PTI_orarie_estrapolati da_ORACLE.md"
-
-  defp pti_note_path_completo, do: Path.join([dir_pti(), pti_note_nome()])
-
-  defp pti_files, do: Path.wildcard(Path.join(dir_pti(), "*.csv"))
 end
