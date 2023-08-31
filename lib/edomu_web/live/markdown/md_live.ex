@@ -1,6 +1,8 @@
 defmodule EdomuWeb.Markdown.MdLive do
   use EdomuWeb, :live_view
 
+  alias Edomu.Files.Utilita, as: UtilFiles
+
   @impl true
 
   def mount(_params, _session, socket) do
@@ -10,33 +12,10 @@ defmodule EdomuWeb.Markdown.MdLive do
 
   @impl true
   def handle_event("leggi_file", %{"file" => file}, socket) do
-    estensione = Path.extname(file)
-
-    contenuto =
-      case estensione do
-        ".md" ->
-          read_markdown(file)
-
-        ".html" ->
-          read_html(file)
-
-        ".svg" ->
-          read_html(file)
-
-        _ ->
-          "<div> non previsto</div>"
-      end
+    contenuto = UtilFiles.leggi_file_as_html(file)
 
     socket = assign(socket, contenuto: contenuto)
     {:noreply, socket}
-  end
-
-  def read_markdown(file) do
-    Earmark.from_file!(file)
-  end
-
-  def read_html(file) do
-    File.read!(file)
   end
 
   def files_md do
@@ -44,6 +23,6 @@ defmodule EdomuWeb.Markdown.MdLive do
   end
 
   def mydir do
-    Path.join([Application.get_env(:arpos, :windows_share), "markdown", "*.*"])
+    Path.join([UtilFiles.windows_share(), "markdown", "*.*"])
   end
 end
