@@ -1,3 +1,7 @@
+<h2 class="bg-slate-300 font-semibold"><%= @tempo %> secondi</h2>
+<button phx-click="reset" type="submit" class="bg-blue-100">
+  RESET
+</button>
 <div class="flex bg-red-300">
   <div class="flex flex-col bg-slate-400">
     <h2 class="bg-slate-300 font-semibold"><%= @directory %>/PTI_orarie_ANNO.csv</h2>
@@ -7,7 +11,7 @@
 
     <div class=" max-w-2xl">
       <div :for={csv <- @files}>
-        <button phx-click="add_to_elabora" phx-value-file={csv} type="submit" class="bg-blue-100">
+        <button phx-click="leggi_pti" phx-value-file={csv} type="submit" class="bg-blue-100">
           <%= Path.basename(csv) %>
         </button>
       </div>
@@ -19,4 +23,6 @@
     <div class="bg-slate-200">Note: <%= @note_nome_file %></div>
     <div class="text-xs"><%= raw(@note_contenuto) %></div>
   </div>
+
+  <div class="flex flex-col bg-green-500"><%= @letto %></div>
 </div>
