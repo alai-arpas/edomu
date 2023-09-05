@@ -2,16 +2,24 @@
 <button phx-click="reset" type="submit" class="bg-blue-100">
   RESET
 </button>
+<button phx-click="reset" type="submit" class="bg-blue-100">
+  RESET
+</button>
 <div class="flex bg-red-300">
   <div class="flex flex-col bg-slate-400">
-    <h2 class="bg-slate-300 font-semibold"><%= @directory %>/PTI_orarie_ANNO.csv</h2>
+    <h2 class="bg-slate-300  font-semibold"><%= @directory %>/PTI_orarie_ANNO.csv</h2>
     <h1>
       <span class="font-bold">File ".csv" esportati dal DB ORACLE meteoclimatico</span>
     </h1>
 
     <div class=" max-w-2xl">
       <div :for={csv <- @files}>
-        <button phx-click="leggi_pti" phx-value-file={csv} type="submit" class="bg-blue-100">
+        <button
+          phx-click="leggi_pti"
+          phx-value-file={csv}
+          type="submit"
+          class="text-xs bg-blue-100"
+        >
           <%= Path.basename(csv) %>
         </button>
       </div>
@@ -21,8 +29,12 @@
 
   <div class="flex flex-col bg-white">
     <div class="bg-slate-200">Note: <%= @note_nome_file %></div>
-    <div class="text-xs"><%= raw(@note_contenuto) %></div>
+    <div class="text-xs"><%= "raw(@note_contenuto)" %></div>
   </div>
 
-  <div class="flex flex-col bg-green-500"><%= @letto %></div>
+  <div class="flex flex-col bg-green-500">
+    <div :for={riga <- @grandezze}>
+      <%= riga.cod_grand %> <%= riga.file %>
+    </div>
+  </div>
 </div>

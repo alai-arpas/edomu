@@ -7,7 +7,7 @@ defmodule EdomuWeb.Pti.PtiLive do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket) do
-      Process.send_after(self(), :tick, 1000)
+      # Process.send_after(self(), :tick, 1000)
     end
 
     socket =
@@ -17,7 +17,9 @@ defmodule EdomuWeb.Pti.PtiLive do
         files: pti_files(),
         directory: dir_pti(),
         tempo: 0,
-        letto: "Legge un file"
+        letto: "Legge un file",
+        grandezze: [],
+        comandi: ~w(grandezze estrai_LIT)
       )
 
     {:ok, socket, layout: {EdomuWeb.Layouts, :xga}}
@@ -42,9 +44,9 @@ defmodule EdomuWeb.Pti.PtiLive do
   end
 
   def handle_event("leggi_pti", %{"file" => file}, socket) do
-    risposta = DfPti.leggi_DF(file)
+    grandezze = DfPti.estrai_grand(file)
     Process.send(self(), :reset, [])
-    {:noreply, assign(socket, letto: risposta)}
+    {:noreply, assign(socket, letto: "risposta", grandezze: grandezze)}
   end
 
   defp dir_pti, do: Path.join([UtilFiles.windows_share(), "poa", "export_pti_sassari"])

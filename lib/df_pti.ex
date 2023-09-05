@@ -1,5 +1,6 @@
 defmodule DfPti do
-  alias Explorer.DataFrame, as: DF
+  require Explorer.DataFrame, as: DF
+  require Explorer.Series, as: DS
 
   def colonne do
     ~w(cod_staz cod_grand data_mis valore cod_valid liv_validaz rete)
@@ -22,7 +23,7 @@ defmodule DfPti do
     %{
       "column_1" => "cod_staz",
       "column_2" => "cod_grand",
-      "column_3" => "data_mis",
+      "column_3" => "data_ita",
       "column_4" => "valore",
       "column_5" => "cod_valid",
       "column_6" => "liv_validaz",
@@ -32,13 +33,50 @@ defmodule DfPti do
 
   def leggi_DF(file) do
     max_rows = 100_000_000_000
+    _max_rows = 100
     opts = [delimiter: ";", max_rows: max_rows, header: false, dtypes: dtypes()]
 
     df = DF.from_csv!(file, opts)
-    dfren = DF.rename(df, rinomina_colonne_map())
-    colonne = DF.names(dfren)
-    stringa = Enum.join(colonne, ",")
-    risposta = [file, stringa, DF.n_rows(dfren)]
-    Enum.join(risposta, "\n")
+    DF.rename(df, rinomina_colonne_map())
   end
+
+  def plug_columns(df) do
+    df
+  end
+
+  def plug_add_data_usa(df) do
+    df0 = DF.mutate(df, date_time: Explorer.Series.strptime(data_ita, "%d-%m-%Y %H:%M"))
+    df1 = DF.mutate(df0, data_mis: Explorer.Series.strftime(date_time, "%Y-%m-%d %H:%M"))
+    DF.discard(df1, ["data_ita", "date_time"])
+  end
+
+  def estrai_anno_ita(stringa) do
+    _formato = "GG-MM-ANNO HH:MM"
+    _stringa = "31-01-2023 00:00"
+
+    String.split(stringa, " ")
+    |> hd
+    |> String.split("-")
+    |> List.last()
+    |> String.to_integer()
+  end
+
+  def ita_usa(data_ita) do
+    # s_ita = "31-01-2023 00:00"
+    # s_usa = "2023-01-31 00:00"
+
+    [gg_mm_anno, hh_ss] = String.split(data_ita, " ")
+    [gg, mm, anno] = String.split(gg_mm_anno, "-")
+    "#{anno}-#{mm}-#{gg} #{hh_ss}"
+  end
+
+  def estrai_grand(file) do
+    nome = Path.basename(file)
+
+    lista = (leggi_DF(file) |> DF.distinct(["cod_grand"]))["cod_grand"]
+    for grand <- DS.to_list(lista), do: %{cod_grand: grand, file: nome}
+  end
+
+  # def agol(df, grand \\ "LIT", rows \\ 10) do
+  # end
 end
