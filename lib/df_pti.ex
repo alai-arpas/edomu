@@ -40,14 +40,11 @@ defmodule DfPti do
     DF.rename(df, rinomina_colonne_map())
   end
 
-  def plug_columns(df) do
-    df
-  end
-
   def plug_add_data_usa(df) do
     df0 = DF.mutate(df, date_time: Explorer.Series.strptime(data_ita, "%d-%m-%Y %H:%M"))
     df1 = DF.mutate(df0, data_mis: Explorer.Series.strftime(date_time, "%Y-%m-%d %H:%M"))
-    DF.discard(df1, ["data_ita", "date_time"])
+    df1
+    # dfinale = DF.discard(df1, ["data_ita", "date_time"])
   end
 
   def estrai_anno_ita(stringa) do

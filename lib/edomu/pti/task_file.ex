@@ -2,6 +2,8 @@ defmodule Edomu.Pti.TaskFile do
   alias Edomu.Files.Utilita, as: UtilFiles
   alias Edomu.Pti.TaskFile
 
+  require Explorer.DataFrame, as: DF
+
   defstruct visualizza: "", nome_in: "", nome_out: "", selected: false, finito: false
 
   def visualizza(tskfile, _opts \\ %{}) do
@@ -39,4 +41,37 @@ defmodule Edomu.Pti.TaskFile do
   def dir_pti, do: Path.join([UtilFiles.windows_share(), "poa", "export_pti_sassari"])
 
   def pti_files, do: Path.wildcard(Path.join(dir_pti(), "*.csv"))
+
+  def esegui_task(:esporta_LIT, file, task, _report_pid) do
+    nome_out = "#{task}_#{file.visualizza}.csv"
+    file_out = Path.join([dir_pti(), "ESRI_AGOL", task, nome_out])
+
+    opts = [delimiter: ";", header: true]
+
+    if not File.exists?(file_out) do
+      df = DfPti.leggi_DF(file.nome_in)
+      df = DF.filter(df, cod_grand == ^task)
+      df = DfPti.plug_add_data_usa(df)
+      df = DF.select(df, ["cod_staz", "data_mis", "valore", "liv_validaz"])
+      df = DF.arrange(df, asc: cod_staz, asc: data_mis)
+
+      if DF.n_rows(df) > 0 do
+        DF.to_csv(df, file_out, opts)
+        IO.inspect(file_out, label: "scritto")
+      else
+        IO.inspect(file_out, label: "ZERO RIGHE")
+      end
+    else
+      IO.inspect(file_out, label: "salto")
+    end
+
+    file_out
+  end
+
+  def esegui_task(files, compito, report_pid) do
+    IO.inspect(self(), label: "inizio")
+
+    Enum.map(files, fn file -> esegui_task(:esporta_LIT, file, compito, report_pid) end)
+    |> IO.inspect(label: "out")
+  end
 end

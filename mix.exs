@@ -52,7 +52,8 @@ defmodule Edomu.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:arpos, "~> 0.1.12"},
-      {:earmark, "~> 1.4.39"}
+      {:earmark, "~> 1.4.39"},
+      {:flow, "~> 1.2.4"}
     ]
   end
 

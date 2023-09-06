@@ -33,10 +33,17 @@ defmodule EdomuWeb.Pti.PtiLive do
           }),
         numero_file: numero_file,
         sel_inizio: numero_file,
-        sel_fine: numero_file
+        sel_fine: numero_file,
+        task: ""
       )
 
     {:ok, socket, layout: {EdomuWeb.Layouts, :xga}}
+  end
+
+  @impl true
+  def handle_info({:come_procede, cosa, stato}, socket) do
+    IO.inspect({cosa, stato}, label: "procede")
+    {:noreply, socket}
   end
 
   @impl true
@@ -51,14 +58,21 @@ defmodule EdomuWeb.Pti.PtiLive do
     {:noreply, assign(socket, :tempo, 0)}
   end
 
-  @impl true
-  def handle_event("esegui", _, socket) do
-    socket = assign(socket, tempo: 0)
+  def handle_info(tutto, socket) do
+    IO.inspect(tutto, label: "tutto")
     {:noreply, socket}
   end
 
   @impl true
-  def handle_event("cambia-form", %{"inizio" => inizio} = params, socket) do
+  def handle_event("esegui", _, socket) do
+    task = socket.assigns.task
+    files = Enum.filter(socket.assigns.task_files, fn task -> task.selected end)
+    TaskFile.esegui_task(files, task, self())
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("cambia-form", %{"inizio" => inizio, "task" => task} = params, socket) do
     IO.inspect(params, label: "cambia_form")
     inizio = String.to_integer(inizio)
 
@@ -72,7 +86,7 @@ defmodule EdomuWeb.Pti.PtiLive do
     task_files = socket.assigns.task_files
     task_files = TaskFile.modifica(task_files, {0, 1000}, {:selected, false})
     task_files = TaskFile.modifica(task_files, {inizio, 1000}, {:selected, true})
-    socket = assign(socket, task_files: task_files)
+    socket = assign(socket, task_files: task_files, task: task)
     {:noreply, socket}
   end
 
