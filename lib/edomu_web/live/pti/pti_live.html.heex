@@ -1,26 +1,42 @@
-<h2 class="bg-slate-300 font-semibold"><%= @tempo %> secondi</h2>
-<button phx-click="reset" type="submit" class="bg-blue-100">
-  RESET
-</button>
-<button phx-click="reset" type="submit" class="bg-blue-100">
-  RESET
-</button>
 <div class="flex bg-red-300">
   <div class="flex flex-col bg-slate-400">
-    <h2 class="bg-slate-300  font-semibold"><%= @directory %>/PTI_orarie_ANNO.csv</h2>
+    <.simple_form for={@form} phx-change="cambia-form" phx-submit="esegui">
+      <.input
+        id="id_inizio"
+        field={@form[:inizio]}
+        type="range"
+        label="Seleziona inizio"
+        type="range"
+        min="1"
+        max={@numero_file}
+      />
+      <div class="">
+        <.input
+          field={@form[:task]}
+          id="id_task"
+          options={["LIT", "P1H", "TCI"]}
+          prompt="Cosa vuoi esportare"
+          type="select"
+          label="Task"
+        />
+      </div>
+      <:actions>
+        <.button>Esegui Task</.button>
+      </:actions>
+    </.simple_form>
+    <h2 class="bg-slate-300  font-semibold"><%= @directory %>/PTI_orarie_ANNO_mm.csv</h2>
     <h1>
       <span class="font-bold">File ".csv" esportati dal DB ORACLE meteoclimatico</span>
     </h1>
 
-    <div class=" max-w-2xl">
-      <div :for={csv <- @files}>
-        <button
-          phx-click="leggi_pti"
-          phx-value-file={csv}
-          type="submit"
-          class="text-xs bg-blue-100"
-        >
-          <%= Path.basename(csv) %>
+    <div class="columns-4  max-w-2xl">
+      <div :for={task <- @task_files} class="flex border-solid border-2">
+        <div :if={task.selected} class="bg-red-200 p-1 m-1">sel</div>
+        <div :if={task.finito} class="bg-green-200 p-1 m-1">fatto</div>
+        <button phx-click="leggi_pti" phx-value-file={task.nome_in} type="submit">
+          <div class="p-1 m-1 bg-blue-100 text-sm w-14 max-w-none">
+            <%= Path.basename(task.visualizza) %>
+          </div>
         </button>
       </div>
     </div>
