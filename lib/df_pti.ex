@@ -58,15 +58,6 @@ defmodule DfPti do
     |> String.to_integer()
   end
 
-  def ita_usa(data_ita) do
-    # s_ita = "31-01-2023 00:00"
-    # s_usa = "2023-01-31 00:00"
-
-    [gg_mm_anno, hh_ss] = String.split(data_ita, " ")
-    [gg, mm, anno] = String.split(gg_mm_anno, "-")
-    "#{anno}-#{mm}-#{gg} #{hh_ss}"
-  end
-
   def estrai_grand(file) do
     nome = Path.basename(file)
 

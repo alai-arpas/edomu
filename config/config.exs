@@ -9,6 +9,39 @@ import Config
 
 config :arpos, :windows_share, System.get_env("WINDOWS_SHARE")
 
+id_alai = System.get_env("ESRI_APP_id")
+id_idro = System.get_env("ESRI_IDRO_APP_id")
+sc_alai = System.get_env("ESRI_APP_secret")
+sc_idro = System.get_env("ESRI_IDRO_APP_secret")
+
+fs = System.get_env("ESRI_ARPAS_SERVICES") || ""
+
+config :eegis,
+  da_config_app: "dev.exs",
+  apps: %{
+    carg_539: %{
+      features_usr_srv: %{
+        {:alai, :arpas} => %{
+          carg_539_campioni: %{nome: "MOGORO_539", numero: 1},
+          carg_539_igm: %{nome: "MOGORO_539", numero: 3},
+          carg_539_legenda: %{nome: "MOGORO_539", numero: 4}
+        }
+      }
+    },
+    poa: %{
+      features_usr_srv: %{
+        {:idro, :arpas} => %{
+          carg_539_campioni: [nome: "MOGORO_539", numero: 1],
+          carg_539_legenda: [nome: "MOGORO_539", numero: 4]
+        }
+      }
+    }
+  },
+  user_services: %{
+    {:alai, :arpas} => %{app_id: id_alai, app_secret: sc_alai, feature_srv: fs, public: false},
+    {:idro, :arpas} => %{app_id: id_idro, app_secret: sc_idro, feature_srv: fs, public: false}
+  }
+
 config :arpos, Arpos.Repo,
   username: System.get_env("SUPACLOUD_DB_USER"),
   password: System.get_env("SUPACLOUD_DB_PASSWORD"),
