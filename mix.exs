@@ -54,7 +54,7 @@ defmodule Edomu.MixProject do
       {:earmark, "~> 1.4.39"},
       {:flow, "~> 1.2.4"},
       {:arpos, "~> 0.1.12"},
-      {:eegis, "~> 0.1.15"}
+      {:eegis, "~> 0.1.16"}
     ]
   end
 

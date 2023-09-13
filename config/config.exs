@@ -11,13 +11,17 @@ config :arpos, :windows_share, System.get_env("WINDOWS_SHARE")
 
 id_alai = System.get_env("ESRI_APP_id")
 id_idro = System.get_env("ESRI_IDRO_APP_id")
+
 sc_alai = System.get_env("ESRI_APP_secret")
 sc_idro = System.get_env("ESRI_IDRO_APP_secret")
 
 fs = System.get_env("ESRI_ARPAS_SERVICES") || ""
 
+esri_agol_noi = System.get_env("ESRI_AGOL_NOI") || ""
+
 config :eegis,
   da_config_app: "dev.exs",
+  esri_agol: %{noi: esri_agol_noi},
   apps: %{
     carg_539: %{
       features_usr_srv: %{
