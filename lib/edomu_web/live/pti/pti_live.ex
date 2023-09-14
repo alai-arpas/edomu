@@ -8,7 +8,7 @@ defmodule EdomuWeb.Pti.PtiLive do
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket) do
-      Process.send_after(self(), :tick, 5000)
+      # Process.send_after(self(), :tick, 5000)
     end
 
     task_files = TaskFile.list_task_file()

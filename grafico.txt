@@ -1,0 +1,11 @@
+<!-- Learn more at https://mermaid-js.github.io/mermaid -->
+
+```mermaid
+graph TD;
+  PTI-->LIT;
+  PTI-->P1H;
+  PTI-->TCI;
+  LIT-->AGOL;
+  P1H-->AGOL;
+  TCI-->AGOL;
+```
