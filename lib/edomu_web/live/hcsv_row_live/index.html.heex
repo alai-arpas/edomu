@@ -1,0 +1,80 @@
+<.header>
+  His Central: gestione csv da caricare in Agol Esri
+  <:actions>
+    <.link patch={~p"/hcsv_rows/new"}>
+      <.button>New Csv row</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<div class="flex flex-col bg-slate-400">
+  <.simple_form for={@form} phx-change="cambia-form" phx-submit="esegui">
+    <.input
+      field={@form[:pti]}
+      id="id_pti"
+      value={@pti}
+      options={@pti_list}
+      type="select"
+      label="Grandezza"
+    />
+    <.input
+      field={@form[:task]}
+      id="id_task"
+      value={@task}
+      options={@tasks}
+      type="select"
+      label="Task"
+    />
+    <:actions>
+      <.button>Esegui Task :-> <%= @task %> / <%= @pti %></.button>
+    </:actions>
+  </.simple_form>
+</div>
+<div>Directory:</div>
+<.table
+  id="hcsv_rows"
+  rows={@streams.hcsv_rows}
+  row_click={fn {_id, hcsv_row} -> JS.navigate(~p"/hcsv_rows/#{hcsv_row}") end}
+>
+  <:col :let={{_id, hcsv_row}} label="Pti"><%= hcsv_row.pti %></:col>
+  <:col :let={{_id, hcsv_row}} label="Nome"><%= hcsv_row.nome %></:col>
+  <:col :let={{_id, hcsv_row}} label="Ordine"><%= hcsv_row.ordine %></:col>
+  <:col :let={{_id, hcsv_row}} label="Rows singolo"><%= hcsv_row.rows_singolo %></:col>
+  <:col :let={{_id, hcsv_row}} label="Rows totale"><%= hcsv_row.rows_totale %></:col>
+  <:col :let={{_id, hcsv_row}} label="Rows totale check"><%= hcsv_row.rows_totale_check %></:col>
+  <:col :let={{_id, hcsv_row}} label="Csv item"><%= hcsv_row.csv_item_id %></:col>
+  <:col :let={{_id, hcsv_row}} label="In agol"><%= hcsv_row.in_agol %></:col>
+  <:col :let={{_id, hcsv_row}} label="In table"><%= hcsv_row.in_table %></:col>
+  <:col :let={{_id, hcsv_row}} label="Carica in agol"><%= hcsv_row.carica_in_agol %></:col>
+  <:col :let={{_id, hcsv_row}} label="Carica in table"><%= hcsv_row.carica_in_table %></:col>
+  <:action :let={{_id, hcsv_row}}>
+    <div class="sr-only">
+      <.link navigate={~p"/hcsv_rows/#{hcsv_row}"}>Show</.link>
+    </div>
+    <.link patch={~p"/hcsv_rows/#{hcsv_row}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, hcsv_row}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: hcsv_row.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="hcsv_row-modal"
+  show
+  on_cancel={JS.patch(~p"/hcsv_rows")}
+>
+  <.live_component
+    module={EdomuWeb.Hcsv_rowLive.FormComponent}
+    id={@hcsv_row.id || :new}
+    title={@page_title}
+    action={@live_action}
+    hcsv_row={@hcsv_row}
+    patch={~p"/hcsv_rows"}
+  />
+</.modal>

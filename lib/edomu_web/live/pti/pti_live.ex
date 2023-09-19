@@ -22,8 +22,9 @@ defmodule EdomuWeb.Pti.PtiLive do
         directory: TaskFile.dir_pti(),
         tempo: 0,
         letto: "Legge un file",
-        grandezze: [],
-        comandi: ~w(grandezze estrai_LIT),
+        grandezze: ~w(LIT P1H TCI),
+        report: [],
+        comandi: ~w(export2csv csv2db_his),
         form:
           to_form(%{
             "nome" => "andrea",
@@ -97,9 +98,8 @@ defmodule EdomuWeb.Pti.PtiLive do
   end
 
   def handle_event("leggi_pti", %{"file" => file}, socket) do
-    grandezze = DfPti.estrai_grand(file)
-    Process.send(self(), :reset, [])
-    {:noreply, assign(socket, letto: "risposta", grandezze: grandezze)}
+    report = DfPti.estrai_grand(file)
+    {:noreply, assign(socket, letto: "risposta", report: report)}
   end
 
   defp pti_note_nome, do: "README_PTI_orarie_estrapolati da_ORACLE.md"

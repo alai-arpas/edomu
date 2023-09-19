@@ -25,7 +25,7 @@ defmodule Edomu.Files.Utilita do
         File.read!(file)
 
       _ ->
-        "<div>Estenzione #{estensione} non prevista.</div>"
+        "<div>Estensione #{estensione} non prevista.</div>"
     end
   end
 end

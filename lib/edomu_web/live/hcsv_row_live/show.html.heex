@@ -1,0 +1,36 @@
+<.header>
+  Hcsv row <%= @hcsv_row.id %>
+  <:subtitle>This is a hcsv_row record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/hcsv_rows/#{@hcsv_row}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit hcsv_row</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Pti"><%= @hcsv_row.pti %></:item>
+  <:item title="Nome"><%= @hcsv_row.nome %></:item>
+  <:item title="Ordine"><%= @hcsv_row.ordine %></:item>
+  <:item title="Rows singolo"><%= @hcsv_row.rows_singolo %></:item>
+  <:item title="Rows totale"><%= @hcsv_row.rows_totale %></:item>
+  <:item title="Rows totale check"><%= @hcsv_row.rows_totale_check %></:item>
+  <:item title="Csv item"><%= @hcsv_row.csv_item_id %></:item>
+  <:item title="In agol"><%= @hcsv_row.in_agol %></:item>
+  <:item title="In table"><%= @hcsv_row.in_table %></:item>
+  <:item title="Carica in agol"><%= @hcsv_row.carica_in_agol %></:item>
+  <:item title="Carica in table"><%= @hcsv_row.carica_in_table %></:item>
+</.list>
+
+<.back navigate={~p"/hcsv_rows"}>Back to hcsv_rows</.back>
+
+<.modal :if={@live_action == :edit} id="hcsv_row-modal" show on_cancel={JS.patch(~p"/hcsv_rows/#{@hcsv_row}")}>
+  <.live_component
+    module={EdomuWeb.Hcsv_rowLive.FormComponent}
+    id={@hcsv_row.id}
+    title={@page_title}
+    action={@live_action}
+    hcsv_row={@hcsv_row}
+    patch={~p"/hcsv_rows/#{@hcsv_row}"}
+  />
+</.modal>

@@ -30,6 +30,14 @@ defmodule EdomuWeb.Router do
       live "/xga_copia", Xga.XgaCopiaLive
       live "/servizio_idrografico", Idrografico.IdroLive
 
+      # HIS CENTRAL ESRI AGOL
+      live "/hcsv_rows", Hcsv_rowLive.Index, :index
+      live "/hcsv_rows/new", Hcsv_rowLive.Index, :new
+      live "/hcsv_rows/:id/edit", Hcsv_rowLive.Index, :edit
+
+      live "/hcsv_rows/:id", Hcsv_rowLive.Show, :show
+      live "/hcsv_rows/:id/show/edit", Hcsv_rowLive.Show, :edit
+
       # CARG
       live "/carg", Carg.CargLive
       live "/carg/:foglio", Carg.CargLive
