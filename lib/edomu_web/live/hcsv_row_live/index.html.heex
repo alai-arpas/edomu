@@ -30,7 +30,8 @@
     </:actions>
   </.simple_form>
 </div>
-<div>Directory:</div>
+<div>Directory: <%= @directory %></div>
+
 <.table
   id="hcsv_rows"
   rows={@streams.hcsv_rows}
@@ -41,7 +42,9 @@
   <:col :let={{_id, hcsv_row}} label="Ordine"><%= hcsv_row.ordine %></:col>
   <:col :let={{_id, hcsv_row}} label="Rows singolo"><%= hcsv_row.rows_singolo %></:col>
   <:col :let={{_id, hcsv_row}} label="Rows totale"><%= hcsv_row.rows_totale %></:col>
-  <:col :let={{_id, hcsv_row}} label="Rows totale check"><%= hcsv_row.rows_totale_check %></:col>
+  <:col :let={{_id, hcsv_row}} label="Rows totale check">
+    <%= hcsv_row.rows_totale_check %>
+  </:col>
   <:col :let={{_id, hcsv_row}} label="Csv item"><%= hcsv_row.csv_item_id %></:col>
   <:col :let={{_id, hcsv_row}} label="In agol"><%= hcsv_row.in_agol %></:col>
   <:col :let={{_id, hcsv_row}} label="In table"><%= hcsv_row.in_table %></:col>

@@ -2,6 +2,8 @@ defmodule Edomu.HisPtiAgol.Hcsv_row do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Edomu.Files.Utilita
+
   @schema_prefix "his_pti_agol"
 
   schema "hcsv_rows" do
@@ -41,4 +43,12 @@ defmodule Edomu.HisPtiAgol.Hcsv_row do
   end
 
   def grand_pti, do: ~w(LIT P1H TCI)
+
+  def dir_base do
+    Path.join([Utilita.windows_share(), "poa", "export_pti_sassari", "ESRI_AGOL"])
+  end
+
+  def dir_base_csv(pti) do
+    Path.join([dir_base(), pti, "*.csv"])
+  end
 end

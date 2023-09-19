@@ -94,6 +94,11 @@ defmodule Edomu.HisPtiAgol do
     Repo.delete(hcsv_row)
   end
 
+  def danger_delete_all(pti) do
+    query = from csv in Hcsv_row, where: csv.pti == ^pti
+    Repo.delete_all(query)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking hcsv_row changes.
 
@@ -106,6 +111,4 @@ defmodule Edomu.HisPtiAgol do
   def change_hcsv_row(%Hcsv_row{} = hcsv_row, attrs \\ %{}) do
     Hcsv_row.changeset(hcsv_row, attrs)
   end
-
-  #############################################################
 end

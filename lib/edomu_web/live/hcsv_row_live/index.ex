@@ -2,26 +2,29 @@ defmodule EdomuWeb.Hcsv_rowLive.Index do
   use EdomuWeb, :live_view
 
   alias Edomu.HisPtiAgol
+  alias Edomu.HisPtiAgol.HcsvTasks
   alias Edomu.HisPtiAgol.Hcsv_row
 
   @impl true
   def mount(_params, _session, socket) do
-    pti = "LIT"
-    task = "info_files_in_db"
+    pti_list = Hcsv_row.grand_pti()
+    tasks = HcsvTasks.tasks()
+    {pti, task} = {hd(pti_list), hd(tasks)}
 
     socket = stream(socket, :hcsv_rows, HisPtiAgol.list_by_grand(pti))
 
     socket =
       assign(socket,
-        pti_list: ~w(LIT P1H TCI),
-        tasks: ~w(info_files_in_db conta_rows),
+        pti_list: Hcsv_row.grand_pti(),
+        tasks: tasks,
         form:
           to_form(%{
             "task" => task,
             "pti" => pti
           }),
         task: task,
-        pti: pti
+        pti: pti,
+        directory: Hcsv_row.dir_base()
       )
 
     {:ok, socket}
@@ -66,13 +69,14 @@ defmodule EdomuWeb.Hcsv_rowLive.Index do
   ############################################################
   @impl true
   def handle_event("esegui", _, socket) do
-    _task = socket.assigns.task
-    _grand = socket.assigns.pti
-    {:noreply, socket}
+    task = socket.assigns.task
+    pti = socket.assigns.pti
+    HcsvTasks.esegui_task(task, pti)
+    {:noreply, stream(socket, :hcsv_rows, HisPtiAgol.list_by_grand(pti), reset: true)}
   end
 
   def handle_event("cambia-form", %{"task" => task, "pti" => pti} = params, socket) do
-    socket = stream(socket, :hcsv_rows, HisPtiAgol.list_by_grand(pti))
+    socket = stream(socket, :hcsv_rows, HisPtiAgol.list_by_grand(pti), reset: true)
     socket = assign(socket, task: task, pti: pti)
     IO.inspect(task, label: "task")
     IO.inspect(pti, label: "pti")
