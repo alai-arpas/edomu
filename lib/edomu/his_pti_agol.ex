@@ -26,6 +26,26 @@ defmodule Edomu.HisPtiAgol do
     Repo.all(query)
   end
 
+  def list_to_upload(grand) do
+    query =
+      from csv in Hcsv_row,
+        where: csv.pti == ^grand and csv.carica_in_agol == true,
+        select: csv.nome,
+        order_by: [csv.pti, csv.ordine]
+
+    Repo.all(query)
+  end
+
+  def list_to_add2table(grand) do
+    query =
+      from csv in Hcsv_row,
+        where: csv.pti == ^grand and csv.carica_in_table == true,
+        select: [csv.nome, csv.rows_totale],
+        order_by: [csv.pti, csv.ordine]
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single hcsv_row.
 

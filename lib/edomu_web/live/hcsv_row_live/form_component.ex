@@ -19,17 +19,24 @@ defmodule EdomuWeb.Hcsv_rowLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:pti]} type="text" label="Pti" />
-        <.input field={@form[:nome]} type="text" label="Nome" />
-        <.input field={@form[:ordine]} type="number" label="Ordine" />
-        <.input field={@form[:rows_singolo]} type="number" label="Rows singolo" />
-        <.input field={@form[:rows_totale]} type="number" label="Rows totale" />
-        <.input field={@form[:rows_totale_check]} type="number" label="Rows totale check" />
+        <div class="flex">
+          <.input field={@form[:pti]} type="text" label="Pti" />
+          <.input field={@form[:nome]} type="text" label="Nome" />
+          <.input field={@form[:ordine]} type="number" label="Ordine" />
+        </div>
+        <div class="flex">
+          <.input field={@form[:rows_singolo]} type="number" label="Rows singolo" />
+          <.input field={@form[:rows_totale]} type="number" label="Rows totale" />
+          <.input field={@form[:rows_totale_check]} type="number" label="Rows totale check" />
+        </div>
         <.input field={@form[:csv_item_id]} type="text" label="Csv item" />
-        <.input field={@form[:in_agol]} type="checkbox" label="In agol" />
-        <.input field={@form[:in_table]} type="checkbox" label="In table" />
-        <.input field={@form[:carica_in_agol]} type="checkbox" label="Carica in agol" />
-        <.input field={@form[:carica_in_table]} type="checkbox" label="Carica in table" />
+        <div class="flex ">
+          <.input field={@form[:in_agol]} type="checkbox" label="In agol" />
+          <.input field={@form[:in_table]} type="checkbox" label="In table" />
+          <.input field={@form[:carica_in_agol]} type="checkbox" label="Carica in agol" />
+          <.input field={@form[:carica_in_table]} type="checkbox" label="Carica in table" />
+        </div>
+
         <:actions>
           <.button phx-disable-with="Saving...">Save Hcsv row</.button>
         </:actions>
