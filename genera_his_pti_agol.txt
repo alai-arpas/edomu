@@ -1,1 +1,2 @@
 mix phx.gen.live HisPtiAgol Hcsv_row hcsv_rows pti nome ordine:integer rows_singolo:integer rows_totale:integer rows_totale_check:integer csv_item_id in_agol:boolean in_table:boolean carica_in_agol:boolean carica_in_table:boolean
+mix phx.gen.live HisPtiAgolJobs Hcsv_job hcsv_jobs user item_id table:integer pti agol window linux

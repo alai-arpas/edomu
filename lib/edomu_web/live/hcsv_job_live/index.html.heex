@@ -1,0 +1,46 @@
+<.header>
+  Listing Hcsv jobs
+  <:actions>
+    <.link patch={~p"/hcsv_jobs/new"}>
+      <.button>New Hcsv job</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="hcsv_jobs"
+  rows={@streams.hcsv_jobs}
+  row_click={fn {_id, hcsv_job} -> JS.navigate(~p"/hcsv_jobs/#{hcsv_job}") end}
+>
+  <:col :let={{_id, hcsv_job}} label="User"><%= hcsv_job.user %></:col>
+  <:col :let={{_id, hcsv_job}} label="Item"><%= hcsv_job.item_id %></:col>
+  <:col :let={{_id, hcsv_job}} label="Table"><%= hcsv_job.table %></:col>
+  <:col :let={{_id, hcsv_job}} label="Pti"><%= hcsv_job.pti %></:col>
+  <:col :let={{_id, hcsv_job}} label="Agol"><%= hcsv_job.agol %></:col>
+  <:col :let={{_id, hcsv_job}} label="Linux"><%= hcsv_job.linux %></:col>
+  <:action :let={{_id, hcsv_job}}>
+    <div class="sr-only">
+      <.link navigate={~p"/hcsv_jobs/#{hcsv_job}"}>Show</.link>
+    </div>
+    <.link patch={~p"/hcsv_jobs/#{hcsv_job}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, hcsv_job}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: hcsv_job.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="hcsv_job-modal" show on_cancel={JS.patch(~p"/hcsv_jobs")}>
+  <.live_component
+    module={EdomuWeb.Hcsv_jobLive.FormComponent}
+    id={@hcsv_job.id || :new}
+    title={@page_title}
+    action={@live_action}
+    hcsv_job={@hcsv_job}
+    patch={~p"/hcsv_jobs"}
+  />
+</.modal>

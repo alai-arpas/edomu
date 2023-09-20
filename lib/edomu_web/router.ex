@@ -38,6 +38,13 @@ defmodule EdomuWeb.Router do
       live "/hcsv_rows/:id", Hcsv_rowLive.Show, :show
       live "/hcsv_rows/:id/show/edit", Hcsv_rowLive.Show, :edit
 
+      live "/hcsv_jobs", Hcsv_jobLive.Index, :index
+      live "/hcsv_jobs/new", Hcsv_jobLive.Index, :new
+      live "/hcsv_jobs/:id/edit", Hcsv_jobLive.Index, :edit
+
+      live "/hcsv_jobs/:id", Hcsv_jobLive.Show, :show
+      live "/hcsv_jobs/:id/show/edit", Hcsv_jobLive.Show, :edit
+
       # CARG
       live "/carg", Carg.CargLive
       live "/carg/:foglio", Carg.CargLive

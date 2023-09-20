@@ -1,0 +1,31 @@
+<.header>
+  Hcsv job <%= @hcsv_job.id %>
+  <:subtitle>This is a hcsv_job record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/hcsv_jobs/#{@hcsv_job}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit hcsv_job</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="User"><%= @hcsv_job.user %></:item>
+  <:item title="Item"><%= @hcsv_job.item_id %></:item>
+  <:item title="Table"><%= @hcsv_job.table %></:item>
+  <:item title="Pti"><%= @hcsv_job.pti %></:item>
+  <:item title="Agol"><%= @hcsv_job.agol %></:item>
+  <:item title="Linux"><%= @hcsv_job.linux %></:item>
+</.list>
+
+<.back navigate={~p"/hcsv_jobs"}>Back to hcsv_jobs</.back>
+
+<.modal :if={@live_action == :edit} id="hcsv_job-modal" show on_cancel={JS.patch(~p"/hcsv_jobs/#{@hcsv_job}")}>
+  <.live_component
+    module={EdomuWeb.Hcsv_jobLive.FormComponent}
+    id={@hcsv_job.id}
+    title={@page_title}
+    action={@live_action}
+    hcsv_job={@hcsv_job}
+    patch={~p"/hcsv_jobs/#{@hcsv_job}"}
+  />
+</.modal>
