@@ -9,3 +9,5 @@ alias Edomu.Repo
 alias Edomu.Xga.Utilita, as: Uxga
 
 alias Edomu.Pti.TaskFile
+
+alias Edomu.HisPtiAgol
