@@ -40,16 +40,16 @@
   <:col :let={{_id, hcsv_row}} label="Pti"><%= hcsv_row.pti %></:col>
   <:col :let={{_id, hcsv_row}} label="Nome"><%= hcsv_row.nome %></:col>
   <:col :let={{_id, hcsv_row}} label="Ordine"><%= hcsv_row.ordine %></:col>
-  <:col :let={{_id, hcsv_row}} label="Rows singolo"><%= hcsv_row.rows_singolo %></:col>
-  <:col :let={{_id, hcsv_row}} label="Rows totale"><%= hcsv_row.rows_totale %></:col>
-  <:col :let={{_id, hcsv_row}} label="Rows totale check">
+  <:col :let={{_id, hcsv_row}} label="Rsingolo"><%= hcsv_row.rows_singolo %></:col>
+  <:col :let={{_id, hcsv_row}} label="Rtotale"><%= hcsv_row.rows_totale %></:col>
+  <:col :let={{_id, hcsv_row}} label="Rcheck">
     <%= hcsv_row.rows_totale_check %>
   </:col>
-  <:col :let={{_id, hcsv_row}} label="Csv item"><%= hcsv_row.csv_item_id %></:col>
-  <:col :let={{_id, hcsv_row}} label="In agol"><%= hcsv_row.in_agol %></:col>
-  <:col :let={{_id, hcsv_row}} label="In table"><%= hcsv_row.in_table %></:col>
-  <:col :let={{_id, hcsv_row}} label="Carica in agol"><%= hcsv_row.carica_in_agol %></:col>
-  <:col :let={{_id, hcsv_row}} label="Carica in table"><%= hcsv_row.carica_in_table %></:col>
+  <:col :let={{_id, hcsv_row}} label="CsvItem"><%= hcsv_row.csv_item_id %></:col>
+  <:col :let={{_id, hcsv_row}} label="InAgol"><%= hcsv_row.in_agol %></:col>
+  <:col :let={{_id, hcsv_row}} label="InTable"><%= hcsv_row.in_table %></:col>
+  <:col :let={{_id, hcsv_row}} label="LoadAgol"><%= hcsv_row.carica_in_agol %></:col>
+  <:col :let={{_id, hcsv_row}} label="LoadTable"><%= hcsv_row.carica_in_table %></:col>
   <:action :let={{_id, hcsv_row}}>
     <div class="sr-only">
       <.link navigate={~p"/hcsv_rows/#{hcsv_row}"}>Show</.link>
