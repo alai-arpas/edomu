@@ -20,9 +20,9 @@ defmodule Edomu.HisPtiAgol.HcsvTasks do
     HisPtiAgol.calcola_rows_totali()
   end
 
-  def esegui_task(_task, pti) do
+  def esegui_task("info_files_in_db", pti) do
     files = Path.wildcard(Hcsv_row.dir_base_csv(pti))
-    Counter.start_link(0)
+    Counter.zero()
 
     files
     |> Enum.map(fn f -> df_info(f, pti) end)

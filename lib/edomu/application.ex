@@ -17,7 +17,9 @@ defmodule Edomu.Application do
       # Start Finch
       {Finch, name: Edomu.Finch},
       # Start the Endpoint (http/https)
-      EdomuWeb.Endpoint
+      EdomuWeb.Endpoint,
+      {Edomu.Counter, 0}
+
       # Start a worker by calling: Edomu.Worker.start_link(arg)
       # {Edomu.Worker, arg}
     ]
