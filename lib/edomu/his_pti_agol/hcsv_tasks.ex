@@ -10,7 +10,11 @@ defmodule Edomu.HisPtiAgol.HcsvTasks do
   require Explorer.DataFrame, as: DF
   # require Explorer.Series, as: DS
 
-  def tasks, do: ~w(info_files_in_db PTI_rows_totali delete_all)
+  def tasks, do: ~w(nulla info_files_in_db PTI_rows_totali delete_all upload_csv append_rows)
+
+  def esegui_task("nulla", pti) do
+    IO.inspect(pti, label: "nulla")
+  end
 
   def esegui_task("delete_all", pti) do
     HisPtiAgol.danger_delete_all(pti)
@@ -27,6 +31,40 @@ defmodule Edomu.HisPtiAgol.HcsvTasks do
     files
     |> Enum.map(fn f -> df_info(f, pti) end)
     |> Enum.each(fn row -> HisPtiAgol.create_hcsv_row(row) end)
+  end
+
+  def esegui_task("upload_csv", pti) do
+    IO.inspect(pti, label: "upload_csv")
+
+    files =
+      HisPtiAgol.list_by_grand(pti)
+      |> Enum.filter(fn row -> row.carica_in_agol end)
+
+    file = hd(files)
+
+    risposta =
+      Req.post!(
+        "http://127.0.0.1:5007/his_pti_upload?csv=#{file.nome}&safe=domenica&righe=#{file.rows_singolo}"
+      )
+
+    IO.inspect(risposta.body, label: "risposta")
+  end
+
+  def esegui_task("append_rows", pti) do
+    IO.inspect(pti, label: "append_rows")
+
+    files =
+      HisPtiAgol.list_by_grand(pti)
+      |> Enum.filter(fn row -> row.carica_in_table end)
+
+    file = hd(files)
+
+    risposta =
+      Req.post!(
+        "http://127.0.0.1:5007/his_pti_append_rows?csv=#{file.nome}&safe=domenica&righe=#{file.rows_singolo}"
+      )
+
+    IO.inspect(risposta.body, label: "risposta")
   end
 
   def df_info(file, pti) do
