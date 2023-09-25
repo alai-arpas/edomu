@@ -8,6 +8,7 @@
 import Config
 
 config :arpos, :windows_share, System.get_env("WINDOWS_SHARE")
+config :edomu, :fastdcopy_arcgis, System.get_env("FASTDOCPY_ARCGIS") || "http://127.0.0.1:5007/"
 
 id_alai = System.get_env("ESRI_APP_id")
 id_idro = System.get_env("ESRI_IDRO_APP_id")

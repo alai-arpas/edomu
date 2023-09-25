@@ -18,7 +18,8 @@ defmodule Edomu.Application do
       {Finch, name: Edomu.Finch},
       # Start the Endpoint (http/https)
       EdomuWeb.Endpoint,
-      {Edomu.Counter, 0}
+      {Edomu.Counter, 0},
+      Edomu.WhichLiveView
 
       # Start a worker by calling: Edomu.Worker.start_link(arg)
       # {Edomu.Worker, arg}

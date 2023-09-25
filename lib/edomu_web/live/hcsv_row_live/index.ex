@@ -5,8 +5,15 @@ defmodule EdomuWeb.Hcsv_rowLive.Index do
   alias Edomu.HisPtiAgol.HcsvTasks
   alias Edomu.HisPtiAgol.Hcsv_row
 
+  alias Edomu.WhichLiveView
+
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      WhichLiveView.set(self())
+      IO.inspect(self(), label: "self")
+    end
+
     pti_list = Hcsv_row.grand_pti()
     tasks = HcsvTasks.tasks()
     {pti, task} = {hd(pti_list), hd(tasks)}
@@ -24,7 +31,8 @@ defmodule EdomuWeb.Hcsv_rowLive.Index do
           }),
         task: task,
         pti: pti,
-        directory: Hcsv_row.dir_base()
+        directory: Hcsv_row.dir_base(),
+        messaggio: "from upload"
       )
 
     {:ok, socket}
@@ -54,6 +62,13 @@ defmodule EdomuWeb.Hcsv_rowLive.Index do
   end
 
   @impl true
+  def handle_info({:elaboro_file, risposta}, socket) do
+    IO.inspect(risposta, label: "elaboro_file")
+
+    {:noreply, assign(socket, messaggio: risposta)}
+  end
+
+  @impl true
   def handle_info({EdomuWeb.Hcsv_rowLive.FormComponent, {:saved, hcsv_row}}, socket) do
     {:noreply, stream_insert(socket, :hcsv_rows, hcsv_row)}
   end
@@ -71,7 +86,7 @@ defmodule EdomuWeb.Hcsv_rowLive.Index do
   def handle_event("esegui", _, socket) do
     task = socket.assigns.task
     pti = socket.assigns.pti
-    HcsvTasks.esegui_task(task, pti)
+    Task.start(fn -> HcsvTasks.esegui_task(task, pti) end)
     {:noreply, stream(socket, :hcsv_rows, HisPtiAgol.list_by_grand(pti), reset: true)}
   end
 
@@ -83,4 +98,6 @@ defmodule EdomuWeb.Hcsv_rowLive.Index do
     IO.inspect(params, label: "params")
     {:noreply, socket}
   end
+
+  ############
 end
