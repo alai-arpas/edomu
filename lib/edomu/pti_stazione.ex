@@ -8,6 +8,17 @@ defmodule Edomu.PtiStazione do
 
   alias Edomu.PtiStazione.Pti_stazione
 
+  def lista_base do
+    query =
+      from s in "pti_stazioni",
+        prefix: "his_central",
+        where: s.lit_idro == "SI",
+        select: %{id: s.id, cod_staz: s.cod_staz},
+        order_by: s.cod_staz
+
+    Repo.all(query)
+  end
+
   @doc """
   Returns the list of pti_stazioni.
 

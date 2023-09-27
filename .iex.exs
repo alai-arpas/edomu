@@ -11,3 +11,5 @@ alias Edomu.Xga.Utilita, as: Uxga
 alias Edomu.Pti.TaskFile
 
 alias Edomu.HisPtiAgol
+
+alias Edomu.PtiStazione, as: Poa
