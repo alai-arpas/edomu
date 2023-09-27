@@ -1,5 +1,9 @@
 non_in_git*.*
 
+dato_pti/LIT
+dato_pti/P1H
+dato_pti/TCI
+
 # The directory Mix will write compiled artifacts to.
 /_build/
 
