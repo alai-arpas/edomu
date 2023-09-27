@@ -1,0 +1,60 @@
+<.header>
+  Listing Pti stazioni
+  <:actions>
+    <.link patch={~p"/pti_stazioni/new"}>
+      <.button>New Pti stazione</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="pti_stazioni"
+  rows={@streams.pti_stazioni}
+  row_click={fn {_id, pti_stazione} -> JS.navigate(~p"/pti_stazioni/#{pti_stazione}") end}
+>
+  <:col :let={{_id, pti_stazione}} label="Cod staz"><%= pti_stazione.cod_staz %></:col>
+  <:col :let={{_id, pti_stazione}} label="Nome"><%= pti_stazione.nome %></:col>
+  <:col :let={{_id, pti_stazione}} label="Localita"><%= pti_stazione.localita %></:col>
+  <:col :let={{_id, pti_stazione}} label="Idro codice"><%= pti_stazione.idro_codice %></:col>
+  <:col :let={{_id, pti_stazione}} label="Idro stazione"><%= pti_stazione.idro_stazione %></:col>
+  <:col :let={{_id, pti_stazione}} label="Idro localita"><%= pti_stazione.idro_localita %></:col>
+  <:col :let={{_id, pti_stazione}} label="Proviene"><%= pti_stazione.proviene %></:col>
+  <:col :let={{_id, pti_stazione}} label="Data inizio"><%= pti_stazione.data_inizio %></:col>
+  <:col :let={{_id, pti_stazione}} label="Data fine"><%= pti_stazione.data_fine %></:col>
+  <:col :let={{_id, pti_stazione}} label="Quota"><%= pti_stazione.quota %></:col>
+  <:col :let={{_id, pti_stazione}} label="Wgs84 utm 32n x"><%= pti_stazione.wgs84_utm_32n_x %></:col>
+  <:col :let={{_id, pti_stazione}} label="Wgs84 utm 32n y"><%= pti_stazione.wgs84_utm_32n_y %></:col>
+  <:col :let={{_id, pti_stazione}} label="Tipo rete"><%= pti_stazione.tipo_rete %></:col>
+  <:col :let={{_id, pti_stazione}} label="Gestione"><%= pti_stazione.gestione %></:col>
+  <:col :let={{_id, pti_stazione}} label="Tci termo"><%= pti_stazione.tci_termo %></:col>
+  <:col :let={{_id, pti_stazione}} label="P1h pluvio"><%= pti_stazione.p1h_pluvio %></:col>
+  <:col :let={{_id, pti_stazione}} label="Lit idro"><%= pti_stazione.lit_idro %></:col>
+  <:col :let={{_id, pti_stazione}} label="Ljt idro2"><%= pti_stazione.ljt_idro2 %></:col>
+  <:col :let={{_id, pti_stazione}} label="X"><%= pti_stazione.x %></:col>
+  <:col :let={{_id, pti_stazione}} label="Y"><%= pti_stazione.y %></:col>
+  <:action :let={{_id, pti_stazione}}>
+    <div class="sr-only">
+      <.link navigate={~p"/pti_stazioni/#{pti_stazione}"}>Show</.link>
+    </div>
+    <.link patch={~p"/pti_stazioni/#{pti_stazione}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, pti_stazione}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: pti_stazione.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="pti_stazione-modal" show on_cancel={JS.patch(~p"/pti_stazioni")}>
+  <.live_component
+    module={EdomuWeb.Pti_stazioneLive.FormComponent}
+    id={@pti_stazione.id || :new}
+    title={@page_title}
+    action={@live_action}
+    pti_stazione={@pti_stazione}
+    patch={~p"/pti_stazioni"}
+  />
+</.modal>

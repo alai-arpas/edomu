@@ -1,0 +1,45 @@
+<.header>
+  Pti stazione <%= @pti_stazione.id %>
+  <:subtitle>This is a pti_stazione record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/pti_stazioni/#{@pti_stazione}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit pti_stazione</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Cod staz"><%= @pti_stazione.cod_staz %></:item>
+  <:item title="Nome"><%= @pti_stazione.nome %></:item>
+  <:item title="Localita"><%= @pti_stazione.localita %></:item>
+  <:item title="Idro codice"><%= @pti_stazione.idro_codice %></:item>
+  <:item title="Idro stazione"><%= @pti_stazione.idro_stazione %></:item>
+  <:item title="Idro localita"><%= @pti_stazione.idro_localita %></:item>
+  <:item title="Proviene"><%= @pti_stazione.proviene %></:item>
+  <:item title="Data inizio"><%= @pti_stazione.data_inizio %></:item>
+  <:item title="Data fine"><%= @pti_stazione.data_fine %></:item>
+  <:item title="Quota"><%= @pti_stazione.quota %></:item>
+  <:item title="Wgs84 utm 32n x"><%= @pti_stazione.wgs84_utm_32n_x %></:item>
+  <:item title="Wgs84 utm 32n y"><%= @pti_stazione.wgs84_utm_32n_y %></:item>
+  <:item title="Tipo rete"><%= @pti_stazione.tipo_rete %></:item>
+  <:item title="Gestione"><%= @pti_stazione.gestione %></:item>
+  <:item title="Tci termo"><%= @pti_stazione.tci_termo %></:item>
+  <:item title="P1h pluvio"><%= @pti_stazione.p1h_pluvio %></:item>
+  <:item title="Lit idro"><%= @pti_stazione.lit_idro %></:item>
+  <:item title="Ljt idro2"><%= @pti_stazione.ljt_idro2 %></:item>
+  <:item title="X"><%= @pti_stazione.x %></:item>
+  <:item title="Y"><%= @pti_stazione.y %></:item>
+</.list>
+
+<.back navigate={~p"/pti_stazioni"}>Back to pti_stazioni</.back>
+
+<.modal :if={@live_action == :edit} id="pti_stazione-modal" show on_cancel={JS.patch(~p"/pti_stazioni/#{@pti_stazione}")}>
+  <.live_component
+    module={EdomuWeb.Pti_stazioneLive.FormComponent}
+    id={@pti_stazione.id}
+    title={@page_title}
+    action={@live_action}
+    pti_stazione={@pti_stazione}
+    patch={~p"/pti_stazioni/#{@pti_stazione}"}
+  />
+</.modal>

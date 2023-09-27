@@ -46,6 +46,14 @@ defmodule EdomuWeb.Router do
       live "/hcsv_jobs/:id", Hcsv_jobLive.Show, :show
       live "/hcsv_jobs/:id/show/edit", Hcsv_jobLive.Show, :edit
 
+      # HIS CENTRAL STAZIONI
+      live "/pti_stazioni", Pti_stazioneLive.Index, :index
+      live "/pti_stazioni/new", Pti_stazioneLive.Index, :new
+      live "/pti_stazioni/:id/edit", Pti_stazioneLive.Index, :edit
+
+      live "/pti_stazioni/:id", Pti_stazioneLive.Show, :show
+      live "/pti_stazioni/:id/show/edit", Pti_stazioneLive.Show, :edit
+
       # CARG
       live "/carg", Carg.CargLive
       live "/carg/:foglio", Carg.CargLive
