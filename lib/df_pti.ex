@@ -40,7 +40,14 @@ defmodule DfPti do
     DF.rename(df, rinomina_colonne_map())
   end
 
-  def plug_add_data_usa(df) do
+  def plug_add_data_usa(df, :data_gg_mm_anno) do
+    df0 = DF.mutate(df, date_time: Explorer.Series.strptime(data_ita, "%d-%m-%Y %H:%M"))
+    df1 = DF.mutate(df0, data_mis: Explorer.Series.strftime(date_time, "%d-%m-%Y %H:%M"))
+    df1
+    # dfinale = DF.discard(df1, ["data_ita", "date_time"])
+  end
+
+  def plug_add_data_usa(df, :data_anno_mm_gg) do
     df0 = DF.mutate(df, date_time: Explorer.Series.strptime(data_ita, "%d-%m-%Y %H:%M"))
     df1 = DF.mutate(df0, data_mis: Explorer.Series.strftime(date_time, "%Y-%m-%d %H:%M"))
     df1

@@ -42,16 +42,26 @@ defmodule Edomu.Pti.TaskFile do
 
   def pti_files, do: Path.wildcard(Path.join(dir_pti(), "*.csv"))
 
-  def esegui_task(:esporta_LIT, file, task, _report_pid) do
+  def esegui_task(:esporta_LIT, file, task, _report_pid, mongo_or_agol) do
     nome_out = "#{task}_#{file.visualizza}.csv"
-    file_out = Path.join([dir_pti(), "ESRI_AGOL", task, nome_out])
 
-    opts = [delimiter: ";", header: true]
+    {dir_out, opts, data_out} =
+      case mongo_or_agol do
+        "MONGODB" ->
+          {"HIS_CENTRAL_MONGO", [delimiter: ",", header: true], :data_gg_mm_anno}
+
+        _ ->
+          {"ESRI_AGOL", [delimiter: ";", header: true], :data_anno_mm_gg}
+      end
+
+    file_out = Path.join([dir_pti(), dir_out, task, nome_out])
 
     if not File.exists?(file_out) do
       df = DfPti.leggi_DF(file.nome_in)
       df = DF.filter(df, cod_grand == ^task)
-      df = DfPti.plug_add_data_usa(df)
+
+      df = DfPti.plug_add_data_usa(df, data_out)
+
       df = DF.select(df, ["cod_staz", "data_mis", "valore", "liv_validaz"])
       df = DF.arrange(df, asc: cod_staz, asc: data_mis)
 
@@ -68,10 +78,12 @@ defmodule Edomu.Pti.TaskFile do
     file_out
   end
 
-  def esegui_task(files, compito, report_pid) do
+  def esegui_task(files, compito, report_pid, mongo_or_agol) do
     IO.inspect(self(), label: "inizio")
 
-    Enum.map(files, fn file -> esegui_task(:esporta_LIT, file, compito, report_pid) end)
+    Enum.map(files, fn file ->
+      esegui_task(:esporta_LIT, file, compito, report_pid, mongo_or_agol)
+    end)
     |> IO.inspect(label: "out")
   end
 end

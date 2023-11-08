@@ -20,6 +20,16 @@
           label="Task"
         />
       </div>
+      <div class="">
+        <.input
+          field={@form[:struttura_output]}
+          id="id_struttura_output"
+          options={["MONGODB", "AGOL"]}
+          prompt="Esporta per "
+          type="select"
+          label="Output per"
+        />
+      </div>
       <:actions>
         <.button>Esegui Task</.button>
       </:actions>

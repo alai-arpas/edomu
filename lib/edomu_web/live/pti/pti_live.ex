@@ -30,12 +30,15 @@ defmodule EdomuWeb.Pti.PtiLive do
             "nome" => "andrea",
             "task" => "task",
             "inizio" => numero_file,
-            "fine" => numero_file
+            "fine" => numero_file,
+            # MongoDb(gg-mm-anno ",") / Agol (anno-mm-gg ";")
+            "struttura_output" => "struttura_output"
           }),
         numero_file: numero_file,
         sel_inizio: numero_file,
         sel_fine: numero_file,
-        task: ""
+        task: "",
+        struttura_output: ""
       )
 
     {:ok, socket, layout: {EdomuWeb.Layouts, :xga}}
@@ -67,13 +70,18 @@ defmodule EdomuWeb.Pti.PtiLive do
   @impl true
   def handle_event("esegui", _, socket) do
     task = socket.assigns.task
+    struttura_output = socket.assigns.struttura_output
     files = Enum.filter(socket.assigns.task_files, fn task -> task.selected end)
-    TaskFile.esegui_task(files, task, self())
+    TaskFile.esegui_task(files, task, self(), struttura_output)
     {:noreply, socket}
   end
 
   @impl true
-  def handle_event("cambia-form", %{"inizio" => inizio, "task" => task} = params, socket) do
+  def handle_event(
+        "cambia-form",
+        %{"inizio" => inizio, "task" => task, "struttura_output" => struttura_output} = params,
+        socket
+      ) do
     IO.inspect(params, label: "cambia_form")
     inizio = String.to_integer(inizio)
 
@@ -87,7 +95,10 @@ defmodule EdomuWeb.Pti.PtiLive do
     task_files = socket.assigns.task_files
     task_files = TaskFile.modifica(task_files, {0, 1000}, {:selected, false})
     task_files = TaskFile.modifica(task_files, {inizio, 1000}, {:selected, true})
-    socket = assign(socket, task_files: task_files, task: task)
+
+    socket =
+      assign(socket, task_files: task_files, task: task, struttura_output: struttura_output)
+
     {:noreply, socket}
   end
 
