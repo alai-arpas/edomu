@@ -48,7 +48,7 @@ defmodule Edomu.Pti.TaskFile do
     {dir_out, opts, data_out} =
       case mongo_or_agol do
         "MONGODB" ->
-          {"HIS_CENTRAL_MONGO", [delimiter: ",", header: true], :data_gg_mm_anno}
+          {"HIS_CENTRAL_MONGO", [delimiter: ",", header: true], :data_anno_mm_gg_T}
 
         _ ->
           {"ESRI_AGOL", [delimiter: ";", header: true], :data_anno_mm_gg}
